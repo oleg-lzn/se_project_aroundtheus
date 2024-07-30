@@ -38,9 +38,13 @@
   font-weight: 900;
   line-height: 1.2;
   margin: 0;
+}
+
+.card__title_long {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  max-width: 220px;
 }
 
 .card__content {
@@ -62,4 +66,8 @@
   border: transparent;
   padding: 0;
   margin: 0;
+}
+
+.card__like-button:hover {
+  animation: fadeOpacity 0.5s ease-in-out forwards;
 }

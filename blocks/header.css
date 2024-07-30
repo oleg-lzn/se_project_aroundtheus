@@ -1,16 +1,15 @@
 .header {
   display: flex;
-  /* max-width: 880px; */
   max-height: 74px;
   height: 100vh;
   flex-wrap: wrap;
   flex-direction: column;
+  margin-top: 40px;
 }
 
 .header__line {
   border-bottom: 1px solid #545454;
   flex-grow: 1;
-  /* max-width: 880px; */
 }
 
 .header__image {
