@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  max-width: 880px;
+  /* max-width: 880px; */
   max-height: 74px;
   height: 100vh;
   flex-wrap: wrap;
@@ -10,7 +10,7 @@
 .header__line {
   border-bottom: 1px solid #545454;
   flex-grow: 1;
-  max-width: 880px;
+  /* max-width: 880px; */
 }
 
 .header__image {
