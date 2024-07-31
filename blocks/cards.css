@@ -3,7 +3,6 @@
   font-size: 24px;
   font-weight: 900;
   line-height: 1.2;
-  margin: 0;
 }
 
 .cards__list {
@@ -11,8 +10,8 @@
   justify-content: center;
   grid-template-columns: repeat(auto-fit, 282px);
   list-style-type: none;
-  margin: 51px 0 0;
-  padding: 0;
+  padding: 51px 0 0 0;
+  margin: 0;
   grid-gap: 20px 17px;
   border-radius: 10px 10px 0 0;
 }
@@ -70,4 +69,11 @@
 
 .card__like-button:hover {
   animation: fadeOpacity 0.5s ease-in-out forwards;
+}
+
+@media screen and (min-width: 320px) and (max-width: 515px) {
+  .cards__list {
+    padding: 36px 0 0 0;
+    margin: 0;
+  }
 }
