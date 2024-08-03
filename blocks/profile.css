@@ -21,6 +21,10 @@
   grid-template-columns: repeat(minmax(auto, 373px));
   grid-gap: 7px 18px;
   align-items: baseline;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 416px;
 }
 
 .profile__edit-button {
@@ -68,22 +72,6 @@
   grid-area: description;
 }
 
-@media screen and (max-width: 950px) {
-  .profile {
-    padding-top: 40px;
-  }
-
-  .profile__add-button {
-    background: transparent url(../images/Vector\ +\ button.svg) center
-      no-repeat;
-    height: 50px;
-    width: 150px;
-    border: 2px solid white;
-    margin-left: auto;
-    padding: 0;
-  }
-}
-
 @media screen and (max-width: 841px) {
   .profile__info {
     display: flex;
@@ -93,16 +81,40 @@
   }
 }
 
+@media screen and (max-width: 709px) {
+  .profile__info {
+    flex-wrap: wrap;
+    max-width: 280px;
+    padding: 0;
+  }
+
+  .profile__title {
+    font-size: 30px;
+    line-height: 26.63px;
+  }
+
+  .profile__sutitle {
+    font-size: 24px;
+    line-height: 21.78px;
+  }
+
+  .profile__add-button {
+    height: 45px;
+    width: 45px;
+  }
+
+  .profile__avatar {
+    margin-right: 10px;
+  }
+}
+
 @media screen and (max-width: 515px) {
   .profile {
-    display: flex;
-    align-items: center;
     flex-direction: column;
     margin: 0;
   }
 
   .profile__info {
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: baseline;
@@ -122,7 +134,6 @@
       center no-repeat;
     height: 18px;
     width: 18px;
-    border: 1px solid white;
     padding: 0;
   }
 
@@ -136,7 +147,6 @@
 
   .profile__add-button {
     margin: 0;
-    border: 2px solid white;
     margin-top: 36px;
     width: 100%;
   }
