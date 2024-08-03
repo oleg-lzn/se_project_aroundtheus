@@ -50,3 +50,5 @@ To get a local copy up and running follow these simple steps:
    ```
 
 ## Link with description and my comments to the project
+
+https://drive.google.com/file/d/1uqMYhtC4ETH0Bk15NbWtq0OMPnAL3Lc2/view?usp=drive_link
