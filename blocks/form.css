@@ -1,34 +1,20 @@
-.modal__form {
-  display: flex;
-  flex-direction: column;
-}
-
-.form__title {
-  margin: 0 0 54px;
-  color: black;
-  width: 330px;
-  height: 23px;
-  font-family: Inter, Helvetica, sans-serif;
-  font-size: 24px;
-  font-weight: 900;
-  line-height: 29.05px;
-  text-align: left;
-}
-
 .form__input {
-  cursor: text;
   border-top: none;
   border-right: none;
   border-left: none;
   padding: 0 0 13.26px;
-  border-bottom: 1px solid black;
-  width: 358px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-family: Inter, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.94px;
   text-align: left;
   margin-bottom: 29.74px;
+  cursor: text;
+}
+
+.form__input::placeholder {
+  color: rgba(0, 0, 0, 1);
 }
 
 .form__input:last-of-type {
@@ -45,9 +31,14 @@
   font-weight: 400;
   line-height: 21.78px;
   text-align: center;
-  width: 358px;
   height: 50.15px;
   border-radius: 2px;
   border: none;
   cursor: pointer;
+}
+
+@media screen and (max-width: 630px) {
+  .form__button {
+    margin: 45px 0 0;
+  }
 }
