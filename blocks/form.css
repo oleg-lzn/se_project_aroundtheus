@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+.form__button:hover {
+  animation: fadeOpacity 0.5s ease-in-out forwards;
+}
+
 @media screen and (max-width: 630px) {
   .form__button {
     margin: 45px 0 0;
