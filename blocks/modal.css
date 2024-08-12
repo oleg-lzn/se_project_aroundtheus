@@ -1,0 +1,46 @@
+.modal {
+  position: fixed;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* margin: 0; */
+  min-width: 320px;
+  max-width: 1280px;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal_opened {
+  display: block;
+}
+
+.modal__container {
+  position: relative;
+  padding: 34px 36px;
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
+}
+
+.modal__close {
+  background-image: url("../images/close_icon_desktop.svg");
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: calc(100% + 4px);
+  border: none;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  background-size: contain;
+  padding: 0;
+}
