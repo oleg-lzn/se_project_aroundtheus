@@ -36,3 +36,18 @@ let initialCards = [
   vanoiseNationalPark,
   lagoDiBraies,
 ];
+
+let profile = document.querySelector(".profile");
+let buttonEdit = profile.querySelector(".profile__edit-button");
+let modal = document.querySelector(".modal");
+let buttonClose = modal.querySelector(".modal__close");
+
+buttonEdit.addEventListener("click", function openEditProfile() {
+  modal.removeAttribute("style", "display:none");
+  modal.classList.add("modal_opened");
+});
+
+buttonClose.addEventListener("click", function closeModal() {
+  modal.setAttribute("style", "display:none");
+  modal.classList.remove("modal_opened");
+});
