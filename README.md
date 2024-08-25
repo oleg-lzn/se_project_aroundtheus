@@ -1,6 +1,6 @@
 # Around The U.S. Project
 
-![Project Banner](../se_project_aroundtheus/images/jacques-cousteau%20jpg.jpg)
+![Project Banner](https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.png)
 
 ## Description
 
@@ -32,11 +32,12 @@ https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.
 
 ### Responsive Design
 
-![Responsive Design Screenshot] https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.png
+![Responsive Design Screenshot](https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.png)
 
 ## Live Demo
 
-Check out the live demo of the project on GitHub Pages: [Around The U.S. Live Demo](https://oleg-lzn.github.io/se_project_aroundtheus)
+Check out the live demo of the project on GitHub Pages: 
+[Around The U.S. Live Demo](https://oleg-lzn.github.io/se_project_aroundtheus)
 
 ## Getting Started
 
