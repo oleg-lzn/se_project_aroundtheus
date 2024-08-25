@@ -1,31 +1,31 @@
 //Declaring the variables
 
-let yosemiteValley = {
+const yosemiteValley = {
   name: "Yosemite Valley",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
 };
 
-let lakeLouise = {
+const lakeLouise = {
   name: "Lake Louise",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
 };
 
-let baldMountains = {
+const baldMountains = {
   name: "Bald Mountains",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
 };
 
-let latemar = {
+const latemar = {
   name: "Latemar",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
 };
 
-let vanoiseNationalPark = {
+const vanoiseNationalPark = {
   name: "Vanoise National Park",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
 };
 
-let lagoDiBraies = {
+const lagoDiBraies = {
   name: "Lago di Braies",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
 };
@@ -39,19 +39,25 @@ let initialCards = [
   lagoDiBraies,
 ];
 
-let profile = document.querySelector(".profile");
-let buttonEdit = profile.querySelector(".profile__edit-button");
-let profileTitle = profile.querySelector(".profile__title");
-let profileSubtitle = profile.querySelector(".profile__subtitle");
-let modal = document.querySelector(".modal");
-let buttonClose = modal.querySelector(".modal__close");
-let modalInputName = modal.querySelector(".modal__form-input_name");
-let modalInputSubtitle = modal.querySelector(".modal__form-input_description");
-let modalForm = modal.querySelector(".modal__form");
+const profile = document.querySelector(".profile");
+const buttonEdit = profile.querySelector(".profile__edit-button");
+const profileTitle = profile.querySelector(".profile__title");
+const profileSubtitle = profile.querySelector(".profile__subtitle");
+const modal = document.querySelector(".modal");
+const buttonClose = modal.querySelector(".modal__close");
+const modalInputName = modal.querySelector("[name=name]");
+const modalInputSubtitle = modal.querySelector("[name=description]");
+const modalForm = modal.querySelector(".modal__form");
+const cardsList = document.querySelector(".cards__list");
+const cardTemplate =
+  document.querySelector("#card-template").content.firstElementChild;
 
 //Editing the profile & opening the modal
+function closeModalProfile() {
+  modal.classList.remove("modal_opened");
+}
+
 buttonEdit.addEventListener("click", function openEditProfile() {
-  modal.removeAttribute("style", "display:none");
   modal.classList.add("modal_opened");
   modalInputName.value = profileTitle.textContent;
   modalInputSubtitle.value = profileSubtitle.textContent;
@@ -59,38 +65,48 @@ buttonEdit.addEventListener("click", function openEditProfile() {
 
 //Closing withouth editing the profile
 buttonClose.addEventListener("click", function closeModal() {
-  modal.setAttribute("style", "display:none");
-  modal.classList.remove("modal_opened");
-  modalInputName.value = " ";
-  modalInputSubtitle.value = " ";
+  closeModalProfile();
 });
 
 //Submitting the form
-function modalFormSubmit(evt) {
+function submitModalForm(evt) {
   evt.preventDefault();
   profileTitle.textContent = modalInputName.value;
   profileSubtitle.textContent = modalInputSubtitle.value;
-  modal.setAttribute("style", "display:none");
-  modal.classList.remove("modal_opened");
+  closeModalProfile();
 }
-modalForm.addEventListener("submit", modalFormSubmit);
+modalForm.addEventListener("submit", submitModalForm);
 
-//Rendering the cards
-let cardsList = document.querySelector(".cards__list");
-let cardTemplate =
-  document.querySelector("#card-template").content.firstElementChild;
+// Old bad (working) code
 
 //Adding the cards to the DOM
+// for (let i = 0; i < initialCards.length; i++) {
+//   function getCardElement(data) {
+//     let cardElement = cardTemplate.cloneNode(true);
+//     let cardTitle = cardElement.querySelector(".card__title");
+//     let cardImage = cardElement.querySelector(".card__image");
+//     let cardImageAlt = initialCards[i].name;
+//     cardTitle.textContent = initialCards[i].name;
+//     cardImage.src = initialCards[i].link;
+//     cardImage.alt = cardImageAlt;
+//     cardsList.append(cardElement);
+//   }
+//   getCardElement(initialCards);
+// }
+
+// New cool (also working) code
+function getCardElement(cardData) {
+  let cardElement = cardTemplate.cloneNode(true);
+  let cardTitle = cardElement.querySelector(".card__title");
+  let cardImage = cardElement.querySelector(".card__image");
+  let cardImageAlt = cardData.name;
+  cardTitle.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardImageAlt;
+  return cardElement;
+}
+
 for (let i = 0; i < initialCards.length; i++) {
-  function getCardElement(data) {
-    let cardElement = cardTemplate.cloneNode(true);
-    let cardTitle = cardElement.querySelector(".card__title");
-    let cardImage = cardElement.querySelector(".card__image");
-    let cardImageAlt = initialCards[i].name;
-    cardTitle.textContent = initialCards[i].name;
-    cardImage.src = initialCards[i].link;
-    cardImage.alt = cardImageAlt;
-    cardsList.append(cardElement);
-  }
-  getCardElement(initialCards);
+  const cardElement = getCardElement(initialCards[i]);
+  cardsList.append(cardElement);
 }
