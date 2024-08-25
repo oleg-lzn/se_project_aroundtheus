@@ -49,7 +49,7 @@ let modalInputName = modal.querySelector(".modal__form-input_name");
 let modalInputSubtitle = modal.querySelector(".modal__form-input_description");
 let modalForm = modal.querySelector(".modal__form");
 
-//Editing the profile
+//Editing the profile & opening the modal
 buttonEdit.addEventListener("click", function openEditProfile() {
   modal.removeAttribute("style", "display:none");
   modal.classList.add("modal_opened");
@@ -73,23 +73,12 @@ function modalFormSubmit(evt) {
   modal.setAttribute("style", "display:none");
   modal.classList.remove("modal_opened");
 }
-
 modalForm.addEventListener("submit", modalFormSubmit);
 
 //Rendering the cards
-
 let cardsList = document.querySelector(".cards__list");
 let cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
-
-//   let cardTitle = cardTemplate.querySelector(".card__title");
-//   let cardImage = cardTemplate.querySelector(".card__image");
-//   let cardImageAlt = cardTemplate.querySelector(".card__alt_text");
-//   let cardsList = document.querySelector(".card__list");
-//   cardTitle.textContent = cardElement.name;
-//   cardImage.src = cardElement.link;
-//   cardImageAlt.textContent = `${cardElement.name} + " " + image`;
-//   cardsList.prepend(cardElement);
 
 //Adding the cards to the DOM
 for (let i = 0; i < initialCards.length; i++) {
@@ -97,24 +86,11 @@ for (let i = 0; i < initialCards.length; i++) {
     let cardElement = cardTemplate.cloneNode(true);
     let cardTitle = cardElement.querySelector(".card__title");
     let cardImage = cardElement.querySelector(".card__image");
+    let cardImageAlt = initialCards[i].name;
     cardTitle.textContent = initialCards[i].name;
     cardImage.src = initialCards[i].link;
-    console.log(cardImage);
+    cardImage.alt = cardImageAlt;
+    cardsList.append(cardElement);
   }
   getCardElement(initialCards);
 }
-
-//     cardsList.insertAdjacentHTML(
-//       "beforeend",
-//       `<template class id="card-template">
-//       <li class="card">
-//         <img class="card__image" alt="card__alt_text" />
-//         <div class="card__content">
-//           <h2 class="card__title"></h2>
-//           <button class="card__like-button" type="button"></button>
-//         </div>
-//       </li> </template
-//     >;`
-//     );
-//   }
-// }
