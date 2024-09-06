@@ -36,7 +36,7 @@
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
-        <div class="modal">
+        <div class="modal" id="profileChange">
           <div class="modal__container">
             <button class="modal__close" type="button"></button>
             <p class="modal__title">Edit profile</p>
@@ -54,6 +54,27 @@
                 placeholder="Description"
               />
               <button class="modal__form-button" type="submit">Save</button>
+            </form>
+          </div>
+        </div>
+        <div class="modal" id="addElement">
+          <div class="modal__container">
+            <button class="modal__close" type="button"></button>
+            <p class="modal__title">New Place</p>
+            <form class="modal__form">
+              <input
+                class="modal__form-input"
+                name="title"
+                type="text"
+                placeholder="Title"
+              />
+              <input
+                class="modal__form-input"
+                name="url"
+                type="link"
+                placeholder="Image URL"
+              />
+              <button class="modal__form-button" type="submit">Create</button>
             </form>
           </div>
         </div>

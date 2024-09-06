@@ -52,6 +52,11 @@ const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
+// variables for the Add Place Modal
+const modalAddCard = document.getElementById("addElement");
+const buttonAdd = profile.querySelector(".profile__add-button");
+const buttonCloseModal = modalAddCard.querySelector(".modal__close");
+
 //Editing the profile & opening the modal
 function closeModalProfile() {
   modal.classList.remove("modal_opened");
@@ -93,7 +98,12 @@ initialCards.forEach((cardData) => {
   cardsList.append(cardElement);
 });
 
-// for (let i = 0; i < initialCards.length; i++) {
-//   const cardElement = getCardElement(initialCards[i]);
-//   cardsList.append(cardElement);
-// }
+// Adding the new card form
+buttonAdd.addEventListener("click", function openAddCard() {
+  modalAddCard.classList.add("modal_opened");
+});
+
+//Closing modal withouth adding the new place
+buttonCloseModal.addEventListener("click", function closeAddPlaceModal() {
+  modalAddCard.classList.remove("modal_opened");
+});
