@@ -77,24 +77,6 @@ function submitModalForm(evt) {
 }
 modalForm.addEventListener("submit", submitModalForm);
 
-// Old bad (working) code
-
-//Adding the cards to the DOM
-// for (let i = 0; i < initialCards.length; i++) {
-//   function getCardElement(data) {
-//     let cardElement = cardTemplate.cloneNode(true);
-//     let cardTitle = cardElement.querySelector(".card__title");
-//     let cardImage = cardElement.querySelector(".card__image");
-//     let cardImageAlt = initialCards[i].name;
-//     cardTitle.textContent = initialCards[i].name;
-//     cardImage.src = initialCards[i].link;
-//     cardImage.alt = cardImageAlt;
-//     cardsList.append(cardElement);
-//   }
-//   getCardElement(initialCards);
-// }
-
-// New cool (also working) code
 function getCardElement(cardData) {
   let cardElement = cardTemplate.cloneNode(true);
   let cardTitle = cardElement.querySelector(".card__title");
@@ -106,7 +88,12 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
-for (let i = 0; i < initialCards.length; i++) {
-  const cardElement = getCardElement(initialCards[i]);
+initialCards.forEach((cardData) => {
+  const cardElement = getCardElement(cardData);
   cardsList.append(cardElement);
-}
+});
+
+// for (let i = 0; i < initialCards.length; i++) {
+//   const cardElement = getCardElement(initialCards[i]);
+//   cardsList.append(cardElement);
+// }
