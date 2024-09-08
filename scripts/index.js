@@ -51,11 +51,15 @@ const modalForm = modal.querySelector(".modal__form");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
+const likeButton = document.querySelector(".card__like-button");
 
 // variables for the Add Place Modal
 const modalAddCard = document.getElementById("addElement");
 const buttonAdd = profile.querySelector(".profile__add-button");
 const buttonCloseModal = modalAddCard.querySelector(".modal__close");
+const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
+const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
+const modalAddCardForm = modalAddCard.querySelector(".modal__form");
 
 //Editing the profile & opening the modal
 function closeModalProfile() {
@@ -92,18 +96,35 @@ function getCardElement(cardData) {
   cardImage.alt = cardImageAlt;
   return cardElement;
 }
-
+//Task 1 Changing the for loop to forEach method
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
-  cardsList.append(cardElement);
+  cardsList.prepend(cardElement);
 });
 
-// Adding the new card form
+//Task 2 Adding the new card form
 buttonAdd.addEventListener("click", function openAddCard() {
   modalAddCard.classList.add("modal_opened");
 });
 
-//Closing modal withouth adding the new place
-buttonCloseModal.addEventListener("click", function closeAddPlaceModal() {
+//Task 3 Closing modal withouth adding the new place
+function closeAddPlaceModal() {
   modalAddCard.classList.remove("modal_opened");
-});
+}
+buttonCloseModal.addEventListener("click", closeAddPlaceModal);
+
+//Adding the new place and submitting the form
+function submitAddPlaceModal(evt) {
+  evt.preventDefault();
+  let userInput = {
+    name: modalAddCardInputPlace.value,
+    link: modalAddCardInputUrl.value,
+  };
+  const newCard = getCardElement(userInput);
+  cardsList.prepend(newCard);
+  closeAddPlaceModal();
+}
+
+modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
+
+//Task 4 Making the like buttons work
