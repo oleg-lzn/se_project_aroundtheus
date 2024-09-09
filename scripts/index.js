@@ -51,7 +51,6 @@ const modalForm = modal.querySelector(".modal__form");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
-const likeButton = document.querySelector(".card__like-button");
 
 // variables for the Add Place Modal
 const modalAddCard = document.getElementById("addElement");
@@ -94,8 +93,14 @@ function getCardElement(cardData) {
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardImageAlt;
+  //Task 4 Making the like buttons work
+  const likeButton = cardElement.querySelector(".card__like-button");
+  likeButton.addEventListener("click", () => {
+    likeButton.classList.toggle("card__like-button_active");
+  });
   return cardElement;
 }
+
 //Task 1 Changing the for loop to forEach method
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
@@ -126,5 +131,3 @@ function submitAddPlaceModal(evt) {
 }
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
-
-//Task 4 Making the like buttons work
