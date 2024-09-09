@@ -60,6 +60,14 @@ const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
 const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
 const modalAddCardForm = modalAddCard.querySelector(".modal__form");
 
+// variables for image modal
+const modalImagePreview = document.getElementById("imageOpen");
+const modalImage = modalImagePreview.querySelector(".modal__image");
+const modalTitleSmall = modalImagePreview.querySelector(".modal__title_small");
+const buttonCloseImageModal = modalImagePreview.querySelector(
+  ".modal__close_image"
+);
+
 //Editing the profile & opening the modal
 function closeModalProfile() {
   modal.classList.remove("modal_opened");
@@ -89,6 +97,13 @@ function getCardElement(cardData) {
   let cardElement = cardTemplate.cloneNode(true);
   let cardTitle = cardElement.querySelector(".card__title");
   let cardImage = cardElement.querySelector(".card__image");
+  // Task 6 - Image Modal Creation
+  cardImage.addEventListener("click", () => {
+    modalImagePreview.classList.toggle("modal_opened");
+    modalImage.src = cardImage.src;
+    modalTitleSmall.textContent = cardTitle.textContent;
+    modalImage.alt = cardTitle.textContent;
+  });
   let cardImageAlt = cardData.name;
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
@@ -136,3 +151,9 @@ function submitAddPlaceModal(evt) {
 }
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
+
+//Closing the image preview
+function closeImageModal() {
+  modalImagePreview.classList.toggle("modal_opened");
+}
+buttonCloseImageModal.addEventListener("click", closeImageModal);
