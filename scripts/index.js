@@ -103,9 +103,9 @@ function handleProfileFormSubmit(evt) {
 profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
 function getCardElement(cardData) {
-  let cardElement = cardTemplate.cloneNode(true);
-  let cardTitle = cardElement.querySelector(".card__title");
-  let cardImage = cardElement.querySelector(".card__image");
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardTitle = cardElement.querySelector(".card__title");
+  const cardImage = cardElement.querySelector(".card__image");
   // Task 6 - Image Modal Creation
   cardImage.addEventListener("click", () => {
     openPopup(modalImagePreview);
@@ -113,7 +113,7 @@ function getCardElement(cardData) {
     modalTitleSmall.textContent = cardTitle.textContent;
     modalImage.alt = cardTitle.textContent;
   });
-  let cardImageAlt = cardData.name;
+  const cardImageAlt = cardData.name;
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardImageAlt;
@@ -144,7 +144,7 @@ buttonAdd.addEventListener("click", () => {
 //Adding the new place and submitting the form
 function submitAddPlaceModal(evt) {
   evt.preventDefault();
-  let userInput = {
+  const userInput = {
     name: modalAddCardInputPlace.value,
     link: modalAddCardInputUrl.value,
   };
