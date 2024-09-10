@@ -30,7 +30,7 @@ const lagoDiBraies = {
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
 };
 
-let initialCards = [
+const initialCards = [
   yosemiteValley,
   lakeLouise,
   baldMountains,
@@ -40,14 +40,15 @@ let initialCards = [
 ];
 
 const profile = document.querySelector(".profile");
-const buttonEdit = profile.querySelector(".profile__edit-button");
+const profileButtonEdit = profile.querySelector(".profile__edit-button");
 const profileTitle = profile.querySelector(".profile__title");
 const profileSubtitle = profile.querySelector(".profile__subtitle");
-const modal = document.querySelector(".modal");
-const buttonClose = modal.querySelector(".modal__close");
-const modalInputName = modal.querySelector("[name=name]");
-const modalInputSubtitle = modal.querySelector("[name=description]");
-const modalForm = modal.querySelector(".modal__form");
+const profileModal = document.querySelector(".modal");
+const profileButtonClose = profileModal.querySelector(".modal__close");
+const profileModalInputName = profileModal.querySelector("[name=name]");
+const profileModalInputSubtitle =
+  profileModal.querySelector("[name=description]");
+const profileModalForm = profileModal.querySelector(".modal__form");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -55,7 +56,7 @@ const cardTemplate =
 // variables for the Add Place Modal
 const modalAddCard = document.getElementById("addElement");
 const buttonAdd = profile.querySelector(".profile__add-button");
-const buttonCloseModal = modalAddCard.querySelector(".modal__close");
+const addCardButtonClose = modalAddCard.querySelector(".modal__close");
 const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
 const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
 const modalAddCardForm = modalAddCard.querySelector(".modal__form");
@@ -63,35 +64,43 @@ const modalAddCardForm = modalAddCard.querySelector(".modal__form");
 // variables for image modal
 const modalImagePreview = document.getElementById("imageOpen");
 const modalImage = modalImagePreview.querySelector(".modal__image");
-const modalTitleSmall = modalImagePreview.querySelector(".modal__title_small");
-const buttonCloseImageModal = modalImagePreview.querySelector(
-  ".modal__close_image"
-);
+const modalTitleSmall = modalImagePreview.querySelector(".modal__title-small");
+const buttonCloseImageModal = modalImagePreview.querySelector(".modal__close");
 
-//Editing the profile & opening the modal
-function closeModalProfile() {
-  modal.classList.remove("modal_opened");
+//Universal functions for opening and closing modals
+function closePopup(popup) {
+  popup.classList.remove("modal_opened");
 }
 
-buttonEdit.addEventListener("click", function openEditProfile() {
-  modal.classList.add("modal_opened");
-  modalInputName.value = profileTitle.textContent;
-  modalInputSubtitle.value = profileSubtitle.textContent;
+function openPopup(popup) {
+  popup.classList.add("modal_opened");
+}
+
+//Task 3 Closing modal withouth adding the new place
+
+// Universal handler for close buttons
+const closeButtons = document.querySelectorAll(".modal__close");
+
+closeButtons.forEach((button) => {
+  const popup = button.closest(".modal");
+  button.addEventListener("click", () => closePopup(popup));
 });
 
-//Closing withouth editing the profile
-buttonClose.addEventListener("click", function closeModal() {
-  closeModalProfile();
+//Editing the profile & opening the modal
+profileButtonEdit.addEventListener("click", function openEditProfile() {
+  openPopup(profileModal);
+  profileModalInputName.value = profileTitle.textContent;
+  profileModalInputSubtitle.value = profileSubtitle.textContent;
 });
 
 //Submitting the form
-function submitModalForm(evt) {
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  profileTitle.textContent = modalInputName.value;
-  profileSubtitle.textContent = modalInputSubtitle.value;
-  closeModalProfile();
+  profileTitle.textContent = profileModalInputName.value;
+  profileSubtitle.textContent = profileModalInputSubtitle.value;
+  closePopup(profileModal);
 }
-modalForm.addEventListener("submit", submitModalForm);
+profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
 function getCardElement(cardData) {
   let cardElement = cardTemplate.cloneNode(true);
@@ -99,7 +108,7 @@ function getCardElement(cardData) {
   let cardImage = cardElement.querySelector(".card__image");
   // Task 6 - Image Modal Creation
   cardImage.addEventListener("click", () => {
-    modalImagePreview.classList.toggle("modal_opened");
+    openPopup(modalImagePreview);
     modalImage.src = cardImage.src;
     modalTitleSmall.textContent = cardTitle.textContent;
     modalImage.alt = cardTitle.textContent;
@@ -127,16 +136,10 @@ initialCards.forEach((cardData) => {
   cardsList.prepend(cardElement);
 });
 
-//Task 2 Adding the new card form
-buttonAdd.addEventListener("click", function openAddCard() {
-  modalAddCard.classList.add("modal_opened");
+//Task 2 Adding the new card
+buttonAdd.addEventListener("click", () => {
+  openPopup(modalAddCard);
 });
-
-//Task 3 Closing modal withouth adding the new place
-function closeAddPlaceModal() {
-  modalAddCard.classList.remove("modal_opened");
-}
-buttonCloseModal.addEventListener("click", closeAddPlaceModal);
 
 //Adding the new place and submitting the form
 function submitAddPlaceModal(evt) {
@@ -147,13 +150,9 @@ function submitAddPlaceModal(evt) {
   };
   const newCard = getCardElement(userInput);
   cardsList.prepend(newCard);
-  closeAddPlaceModal();
+  closePopup(modalAddCard);
+  modalAddCardInputPlace.value = "";
+  modalAddCardInputUrl.value = "";
 }
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
-
-//Closing the image preview
-function closeImageModal() {
-  modalImagePreview.classList.toggle("modal_opened");
-}
-buttonCloseImageModal.addEventListener("click", closeImageModal);
