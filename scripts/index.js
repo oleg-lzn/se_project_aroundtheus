@@ -159,4 +159,15 @@ function submitAddPlaceModal(evt) {
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
-//
+//Adding an option to close the popup by the click outside of it
+
+const popups = document.querySelectorAll(".popup");
+popups.forEach((popup) => {
+  const popupContent = popup.querySelector("#popup__container");
+  popup.addEventListener("click", (evt) => {
+    // if click is committed outside of the popup
+    if (!popupContent.contains(evt.target)) {
+      closePopup(popup);
+    }
+  });
+});
