@@ -165,8 +165,18 @@ const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => {
   const popupContent = popup.querySelector("#popup__container");
   popup.addEventListener("click", (evt) => {
-    // if click is committed outside of the popup
+    // if click is committed outside of the popup - close it
     if (!popupContent.contains(evt.target)) {
+      closePopup(popup);
+    }
+  });
+});
+
+// Adding an option to close the popup by the ESC press
+
+popups.forEach((popup) => {
+  document.body.addEventListener("keydown", (evt) => {
+    if (evt.key === "Escape") {
       closePopup(popup);
     }
   });
