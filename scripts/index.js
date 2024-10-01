@@ -43,12 +43,12 @@ const profile = document.querySelector(".profile");
 const profileButtonEdit = profile.querySelector(".profile__edit-button");
 const profileTitle = profile.querySelector(".profile__title");
 const profileSubtitle = profile.querySelector(".profile__subtitle");
-const profileModal = document.querySelector(".modal");
-const profileButtonClose = profileModal.querySelector(".modal__close");
+const profileModal = document.querySelector(".popup");
+const profileButtonClose = profileModal.querySelector(".popup__close");
 const profileModalInputName = profileModal.querySelector("[name=name]");
 const profileModalInputSubtitle =
   profileModal.querySelector("[name=description]");
-const profileModalForm = profileModal.querySelector(".modal__form");
+const profileModalForm = profileModal.querySelector(".popup__form");
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -56,34 +56,36 @@ const cardTemplate =
 // variables for the Add Place Modal
 const modalAddCard = document.getElementById("addElement");
 const buttonAdd = profile.querySelector(".profile__add-button");
-const addCardButtonClose = modalAddCard.querySelector(".modal__close");
+const addCardButtonClose = modalAddCard.querySelector(".popup__close");
 const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
 const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
-const modalAddCardForm = modalAddCard.querySelector(".modal__form");
+const modalAddCardForm = modalAddCard.querySelector(".popup__form");
 
 // variables for image modal
 const modalImagePreview = document.getElementById("imageOpen");
-const modalImage = modalImagePreview.querySelector(".modal__image");
-const modalTitleSmall = modalImagePreview.querySelector(".modal__title-small");
-const buttonCloseImageModal = modalImagePreview.querySelector(".modal__close");
+const modalImage = modalImagePreview.querySelector(".popup__image");
+const modalTitleSmall = modalImagePreview.querySelector(".popup__title-small");
+const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
 
 //Universal functions for opening and closing modals
 function closePopup(popup) {
-  popup.classList.remove("modal_opened");
+  popup.classList.remove("popup_opened");
 }
 
 function openPopup(popup) {
-  popup.classList.add("modal_opened");
+  popup.classList.add("popup_opened");
 }
 
 //Task 3 Closing modal withouth adding the new place
 
 // Universal handler for close buttons
-const closeButtons = document.querySelectorAll(".modal__close");
+const closeButtons = document.querySelectorAll(".popup__close");
 
 closeButtons.forEach((button) => {
-  const popup = button.closest(".modal");
-  button.addEventListener("click", () => closePopup(popup));
+  const popup = button.closest(".popup");
+  button.addEventListener("click", () => {
+    closePopup(popup);
+  });
 });
 
 //Editing the profile & opening the modal
@@ -156,3 +158,5 @@ function submitAddPlaceModal(evt) {
 }
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
+
+//

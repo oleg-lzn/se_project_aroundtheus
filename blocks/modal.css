@@ -1,4 +1,4 @@
-.modal {
+.popup {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -15,7 +15,7 @@
   transition: visibility 0.3s linear 0.3s, opacity 0.3s linear;
 }
 
-.modal__title {
+.popup__title {
   margin: 0 0 54px;
   color: black;
   height: 23px;
@@ -26,18 +26,18 @@
   text-align: left;
 }
 
-.modal__form {
+.popup__form {
   display: flex;
   flex-direction: column;
 }
 
-.modal_opened {
+.popup_opened {
   opacity: 1;
   visibility: visible;
   transition-delay: 0s;
 }
 
-.modal__container {
+.popup__container {
   max-width: 360px;
   width: 100%;
   margin: auto;
@@ -51,7 +51,7 @@
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.15);
 }
 
-.modal__close {
+.popup__close {
   background-image: url("../images/close_icon_desktop.svg");
   width: 40px;
   height: 40px;
@@ -67,64 +67,44 @@
   padding: 0;
 }
 
-/* .modal__close_image {
-  background-image: url("../images/close_icon_desktop.svg");
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: calc(100% + 4px);
-  border: none;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  cursor: pointer;
-  outline: none;
-  background-size: contain;
-  padding: 0;
-} */
-
-.modal__close:hover {
+.popup__close:hover {
   animation: fadeOpacity 0.5s ease-in-out forwards;
 }
-
-/* .modal__close_image:hover {
-  animation: fadeOpacity 0.5s ease-in-out forwards;
-} */
 
 @media screen and (max-width: 630px) {
-  .modal__title {
+  .popup__title {
     font-size: 18px;
     line-height: 21.78px;
     margin: 0 0 75px 0;
   }
 
-  .modal__container {
+  .popup__container {
     position: relative;
     padding: 25px 22px;
     margin: 0 auto;
   }
 
-  .modal__close {
+  .popup__close {
     width: 26px;
     height: 26px;
     bottom: calc(100% + 14px);
     left: calc(100% - 30px);
   }
 
-  .modal__image {
+  .popup__image {
     max-width: 240px;
     min-height: 299px;
   }
 }
 
 @media screen and (min-width: 630px) and (max-width: 885px) {
-  .modal__close {
+  .popup__close {
     bottom: calc(100% + 14px);
     left: calc(100% - 40px);
   }
 }
 
-.modal__container-image {
+.popup__container-image {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -132,7 +112,7 @@
   position: relative;
 }
 
-.modal__image {
+.popup__image {
   width: 100%;
   max-height: 540px;
   object-fit: cover;
@@ -140,7 +120,7 @@
   height: auto;
 }
 
-.modal__title-small {
+.popup__title-small {
   position: relative;
   font-family: Inter, Helvetica, sans-serif;
   font-size: 12px;
