@@ -69,11 +69,11 @@ const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
 
 //Universal functions for opening and closing modals
 function closePopup(popup) {
-  popup.classList.remove("popup_opened");
+  popup.classList.remove("popup__open");
 }
 
 function openPopup(popup) {
-  popup.classList.add("popup_opened");
+  popup.classList.add("popup__open");
 }
 
 //Task 3 Closing modal withouth adding the new place

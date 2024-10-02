@@ -1,7 +1,21 @@
+.popup__form {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  margin: 41px 0 0;
+  gap: 29.74px;
+  border-radius: 1px;
+  width: 360px;
+  /* width: 100%; */
+}
+
+.popup__form-group {
+  position: relative;
+}
+
 .popup__input {
-  border-top: none;
-  border-right: none;
-  border-left: none;
+  border: none;
+  outline: none;
   padding: 0 0 13.26px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   font-family: Inter, Helvetica, sans-serif;
@@ -9,8 +23,8 @@
   font-weight: 400;
   line-height: 16.94px;
   text-align: left;
-  margin-top: 29.74px;
   cursor: text;
+  width: 100%;
 }
 
 .popup__input_inactive {
@@ -21,8 +35,8 @@
   color: rgba(0, 0, 0, 1);
 }
 
-.popup__input:first-of-type {
-  margin: 0;
+.popup__input:last-of-type {
+  /* margin-top: 17px; */
 }
 
 input[name="title"]::placeholder,
@@ -38,7 +52,7 @@ input[name="url"]::placeholder {
 .popup__button {
   background-color: black;
   color: white;
-  margin-top: 48px;
+  margin-top: 20px;
   padding: 0;
   font-family: Inter, Helvetica, sans-serif;
   font-size: 18px;
@@ -85,11 +99,16 @@ input[name="url"]::placeholder {
 }
 
 .popup__error {
+  /* visibility: hidden; */
+  position: absolute;
+  display: block;
   color: red;
   font-family: Inter, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: 400;
   line-height: 14.52px;
   text-align: left;
-  padding-top: 5px;
+  padding: 0;
+  margin-top: 5px;
+  transition: opacity 0.1s;
 }
