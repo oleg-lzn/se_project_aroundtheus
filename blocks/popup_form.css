@@ -6,7 +6,6 @@
   gap: 29.74px;
   border-radius: 1px;
   width: 360px;
-  /* width: 100%; */
 }
 
 .popup__form-group {
@@ -33,10 +32,6 @@
 
 .popup__input::placeholder {
   color: rgba(0, 0, 0, 1);
-}
-
-.popup__input:last-of-type {
-  /* margin-top: 17px; */
 }
 
 input[name="title"]::placeholder,
@@ -99,7 +94,6 @@ input[name="url"]::placeholder {
 }
 
 .popup__error {
-  /* visibility: hidden; */
   position: absolute;
   display: block;
   color: red;
