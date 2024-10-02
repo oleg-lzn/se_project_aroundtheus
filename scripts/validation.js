@@ -30,7 +30,6 @@ const enableValidation = (config) => {
     inputElement.classList.add(config.inputErrorClass);
     errorElement.classList.add(config.errorClass);
     errorElement.textContent = errorMessage;
-    //   // disable button
   };
 
   const hideInputError = (form, inputElement, config) => {
@@ -38,9 +37,8 @@ const enableValidation = (config) => {
     inputElement.classList.remove(config.inputErrorClass);
     errorElement.classList.remove(config.errorClass);
     errorElement.textContent = "";
-    //   //   // if all the inputs are correct
-    //   //   // enable button
-    //   //   // reset error messages
+    // if all the inputs are correct
+    // reset error messages
   };
 
   const checkInputValidity = (form, inputElement, config) => {
