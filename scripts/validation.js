@@ -3,7 +3,6 @@ const enableValidation = (config) => {
   formList.forEach((form) => {
     form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      toggleButtonState(inputList, submitButton, config);
     });
 
     const setEventListeners = (form, config) => {
