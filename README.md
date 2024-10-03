@@ -30,7 +30,7 @@ https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.
 
 ### Editing a Card
 
-![Editing profile and adding a new card](https://drive.google.com/file/d/1-Bbn9J-CCwILlWdQulPprpD1Bk2QNXWc/view?usp=drive_link)
+![Editing profile and adding a new card](./assets/around_the_us_functional_gif.gif)
 
 ### Responsive Design
 
