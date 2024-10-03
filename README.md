@@ -28,7 +28,7 @@ The "Around The U.S." project is a responsive web application designed to showca
 
 https://practicum-content.s3.amazonaws.com/resources/P3_Desktop__Mob_1688718911.png
 
-### Editing a Card
+### Editing a Card and adding a new card
 
 ![Editing profile and adding a new card](./assets/around_the_us_functional_gif.gif)
 
