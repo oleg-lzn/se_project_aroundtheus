@@ -6,6 +6,7 @@
   border: none;
   overflow: hidden;
   position: relative;
+  margin: auto;
 }
 
 .card__image {

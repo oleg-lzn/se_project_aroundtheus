@@ -13,10 +13,9 @@
 }
 
 .page__section {
-  max-width: 880px;
-  width: 100%;
   position: relative;
-  box-sizing: border-box;
+  width: 100%;
+  max-width: 880px;
   margin: 0 auto;
 }
 
@@ -35,9 +34,14 @@
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and ((min-width: 515px) and (max-width: 950px)) {
   .page__section {
-    margin: 0 20px;
     max-width: calc(100% - 40px);
+  }
+}
+
+@media screen and (max-width: 515px) {
+  .page__section {
+    max-width: 282px;
   }
 }
