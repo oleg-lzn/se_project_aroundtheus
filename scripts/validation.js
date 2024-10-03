@@ -56,6 +56,7 @@ const enableValidation = (config) => {
   // Toggling the button state
   const disableButton = (submitButton, config) => {
     submitButton.classList.add(config.inactiveButtonClass);
+    // submitButton.disabled = true;
   };
 
   const enableButton = (submitButton, config) => {

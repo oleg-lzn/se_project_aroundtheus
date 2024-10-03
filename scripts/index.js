@@ -48,7 +48,7 @@ const profileButtonClose = profileModal.querySelector(".popup__close");
 const profileModalInputName = profileModal.querySelector("[name=name]");
 const profileModalInputSubtitle =
   profileModal.querySelector("[name=description]");
-const profileModalForm = profileModal.querySelector(".popup__form");
+const profileModalForm = document.forms["profile-form"];
 const cardsList = document.querySelector(".cards__list");
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
@@ -59,7 +59,7 @@ const buttonAdd = profile.querySelector(".profile__add-button");
 const addCardButtonClose = modalAddCard.querySelector(".popup__close");
 const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
 const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
-const modalAddCardForm = modalAddCard.querySelector(".popup__form");
+const modalAddCardForm = document.forms["new-card-form"];
 
 // variables for image modal
 const modalImagePreview = document.getElementById("imageOpen");
@@ -70,14 +70,19 @@ const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
 //Universal functions for opening and closing modals
 function closePopup(popup) {
   popup.classList.remove("popup__open");
+  document.removeEventListener("keydown", escapeHandler);
+
+  // Question to the reviewer.
+  // What are other ways of doing it? I wanted to use the forEach method for going through
+  // popups adding and removing the event listener in pair of closepopup(popup) function
 }
 
 function openPopup(popup) {
   popup.classList.add("popup__open");
+  document.addEventListener("keydown", escapeHandler);
 }
 
 //Task 3 Closing modal withouth adding the new place
-
 // Universal handler for close buttons
 const closeButtons = document.querySelectorAll(".popup__close");
 
@@ -134,9 +139,13 @@ function getCardElement(cardData) {
 
 //Task 1 Changing the for loop to forEach method
 initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardsList.prepend(cardElement);
+  renderCard(cardData, (method = "prepend"));
 });
+
+function renderCard(cardData, method = "prepend") {
+  const cardElement = getCardElement(cardData);
+  cardsList[method](cardElement);
+}
 
 //Task 2 Adding the new card
 buttonAdd.addEventListener("click", () => {
@@ -173,11 +182,9 @@ popups.forEach((popup) => {
 });
 
 // Adding an option to close the popup by the ESC press
-
-popups.forEach((popup) => {
-  document.body.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape") {
-      closePopup(popup);
-    }
-  });
-});
+function escapeHandler(evt) {
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector(".popup__open");
+    closePopup(openedPopup);
+  }
+}
