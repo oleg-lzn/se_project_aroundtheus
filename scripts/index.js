@@ -69,29 +69,30 @@ const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
 
 //Universal functions for opening and closing modals
 function closePopup(popup) {
-  popup.classList.remove("popup__open");
+  popup.classList.remove("popup_open");
   document.removeEventListener("keydown", escapeHandler);
 
-  // Question to the reviewer.
-  // What are other ways of doing it? I wanted to use the forEach method for going through
-  // popups adding and removing the event listener in pair of closepopup(popup) function
+  // Remarks to the reviewer.
+  // Thanks a lot for the explanation! Very cool and helpful.
 }
 
-function openPopup(popup) {
-  popup.classList.add("popup__open");
-  document.addEventListener("keydown", escapeHandler);
-}
-
-//Task 3 Closing modal withouth adding the new place
-// Universal handler for close buttons
-const closeButtons = document.querySelectorAll(".popup__close");
-
-closeButtons.forEach((button) => {
-  const popup = button.closest(".popup");
-  button.addEventListener("click", () => {
-    closePopup(popup);
+//Task 3 Universal popup close handler
+const popups = document.querySelectorAll(".popup");
+popups.forEach((popup) => {
+  popup.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("popup_open")) {
+      closePopup(popup);
+    }
+    if (evt.target.classList.contains("popup__close")) {
+      closePopup(popup);
+    }
   });
 });
+
+function openPopup(popup) {
+  popup.classList.add("popup_open");
+  document.addEventListener("keydown", escapeHandler);
+}
 
 //Editing the profile & opening the modal
 profileButtonEdit.addEventListener("click", function openEditProfile() {
@@ -139,7 +140,7 @@ function getCardElement(cardData) {
 
 //Task 1 Changing the for loop to forEach method
 initialCards.forEach((cardData) => {
-  renderCard(cardData, (method = "prepend"));
+  renderCard(cardData);
 });
 
 function renderCard(cardData, method = "prepend") {
@@ -160,7 +161,7 @@ function submitAddPlaceModal(evt) {
     link: modalAddCardInputUrl.value,
   };
   const newCard = getCardElement(userInput);
-  cardsList.prepend(newCard);
+  renderCard(newCard);
   closePopup(modalAddCard);
   modalAddCardInputPlace.value = "";
   modalAddCardInputUrl.value = "";
@@ -170,7 +171,6 @@ modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
 //Adding an option to close the popup by the click outside of it
 
-const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => {
   const popupContent = popup.querySelector("#popup__container");
   popup.addEventListener("click", (evt) => {
@@ -184,7 +184,17 @@ popups.forEach((popup) => {
 // Adding an option to close the popup by the ESC press
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup__open");
+    const openedPopup = document.querySelector(".popup_open");
     closePopup(openedPopup);
   }
 }
+
+// Universal handler for close buttons
+// const closeButtons = document.querySelectorAll(".popup__close");
+
+// closeButtons.forEach((button) => {
+//   const popup = button.closest(".popup");
+//   button.addEventListener("click", () => {
+//     closePopup(popup);
+//   });
+// });
