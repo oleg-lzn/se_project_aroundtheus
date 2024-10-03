@@ -80,10 +80,10 @@ function closePopup(popup) {
 const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => {
   popup.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("popup_open")) {
-      closePopup(popup);
-    }
-    if (evt.target.classList.contains("popup__close")) {
+    if (
+      evt.target.classList.contains("popup_open") ||
+      evt.target.classList.contains("popup__close")
+    ) {
       closePopup(popup);
     }
   });
@@ -169,18 +169,6 @@ function submitAddPlaceModal(evt) {
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
-//Adding an option to close the popup by the click outside of it
-
-popups.forEach((popup) => {
-  const popupContent = popup.querySelector("#popup__container");
-  popup.addEventListener("click", (evt) => {
-    // if click is committed outside of the popup - close it
-    if (!popupContent.contains(evt.target)) {
-      closePopup(popup);
-    }
-  });
-});
-
 // Adding an option to close the popup by the ESC press
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
@@ -196,5 +184,17 @@ function escapeHandler(evt) {
 //   const popup = button.closest(".popup");
 //   button.addEventListener("click", () => {
 //     closePopup(popup);
+//   });
+// });
+
+//Adding an option to close the popup by the click outside of it
+
+// popups.forEach((popup) => {
+//   const popupContent = popup.querySelector("#popup__container");
+//   popup.addEventListener("click", (evt) => {
+//     // if click is committed outside of the popup - close it
+//     if (!popupContent.contains(evt.target)) {
+//       closePopup(popup);
+//     }
 //   });
 // });
