@@ -140,13 +140,9 @@ function getCardElement(cardData) {
 
 //Task 1 Changing the for loop to forEach method
 initialCards.forEach((cardData) => {
-  renderCard(cardData);
-});
-
-function renderCard(cardData, method = "prepend") {
   const cardElement = getCardElement(cardData);
-  cardsList[method](cardElement);
-}
+  cardsList.prepend(cardElement);
+});
 
 //Task 2 Adding the new card
 buttonAdd.addEventListener("click", () => {
@@ -161,7 +157,7 @@ function submitAddPlaceModal(evt) {
     link: modalAddCardInputUrl.value,
   };
   const newCard = getCardElement(userInput);
-  renderCard(newCard);
+  cardsList.prepend(newCard);
   closePopup(modalAddCard);
   modalAddCardInputPlace.value = "";
   modalAddCardInputUrl.value = "";
@@ -198,3 +194,8 @@ function escapeHandler(evt) {
 //     }
 //   });
 // });
+
+// function renderCard(item, method = "prepend") {
+//   const cardElement = getCardElement(item);
+//   cardsList[method](cardElement);
+// }
