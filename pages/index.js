@@ -1,79 +1,90 @@
+import Card from "../components/Card.js";
+
+// const cardData = {
+//   name: "Yosemite Valley",
+//   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+// };
+
+// const card = new Card(cardData, "#card-template");
+// card.getView();
+
 //Declaring the variables
-
-const yosemiteValley = {
-  name: "Yosemite Valley",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-};
-
-const lakeLouise = {
-  name: "Lake Louise",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
-};
-
-const baldMountains = {
-  name: "Bald Mountains",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-};
-
-const latemar = {
-  name: "Latemar",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-};
-
-const vanoiseNationalPark = {
-  name: "Vanoise National Park",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
-};
-
-const lagoDiBraies = {
-  name: "Lago di Braies",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
-};
-
 const initialCards = [
-  yosemiteValley,
-  lakeLouise,
-  baldMountains,
-  latemar,
-  vanoiseNationalPark,
-  lagoDiBraies,
+  {
+    name: "Yosemite Valley",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+  },
+
+  {
+    name: "Lake Louise",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
+  },
+
+  {
+    name: "Bald Mountains",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
+  },
+
+  {
+    name: "Latemar",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
+  },
+
+  {
+    name: "Vanoise National Park",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
+  },
+
+  {
+    name: "Lago di Braies",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
+  },
 ];
 
-const profile = document.querySelector(".profile");
-const profileButtonEdit = profile.querySelector(".profile__edit-button");
-const profileTitle = profile.querySelector(".profile__title");
-const profileSubtitle = profile.querySelector(".profile__subtitle");
-const profileModal = document.querySelector(".popup");
-const profileButtonClose = profileModal.querySelector(".popup__close");
-const profileModalInputName = profileModal.querySelector("[name=name]");
-const profileModalInputSubtitle =
-  profileModal.querySelector("[name=description]");
-const profileModalForm = document.forms["profile-form"];
-const cardsList = document.querySelector(".cards__list");
+// Templates
 const cardTemplate =
   document.querySelector("#card-template").content.firstElementChild;
 
-// variables for the Add Place Modal
+// Variables
+const profile = document.querySelector(".profile");
+const profileTitle = profile.querySelector(".profile__title");
+const profileSubtitle = profile.querySelector(".profile__subtitle");
+const profileModal = document.querySelector(".popup");
+const profileModalInputName = profileModal.querySelector("[name=name]");
+const profileModalInputSubtitle =
+  profileModal.querySelector("[name=description]");
+const cardsList = document.querySelector(".cards__list");
+
+// Variables for the Add Place Modal
 const modalAddCard = document.getElementById("addElement");
-const buttonAdd = profile.querySelector(".profile__add-button");
-const addCardButtonClose = modalAddCard.querySelector(".popup__close");
 const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
 const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
-const modalAddCardForm = document.forms["new-card-form"];
 
-// variables for image modal
+// Variables for image modal
 const modalImagePreview = document.getElementById("imageOpen");
 const modalImage = modalImagePreview.querySelector(".popup__image");
 const modalTitleSmall = modalImagePreview.querySelector(".popup__title-small");
+
+// Buttons
+const profileButtonClose = profileModal.querySelector(".popup__close");
+const profileButtonEdit = profile.querySelector(".profile__edit-button");
+const addCardButton = profile.querySelector(".profile__add-button");
 const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
+const addCardButtonClose = modalAddCard.querySelector(".popup__close");
+
+// Forms
+const modalAddCardForm = document.forms["new-card-form"];
+const profileModalForm = document.forms["profile-form"];
 
 //Universal functions for opening and closing modals
+
 function closePopup(popup) {
   popup.classList.remove("popup_open");
   document.removeEventListener("keydown", escapeHandler);
 }
 
-//Task 3 Universal popup close handler
+//Universal popup close handler
+
 const popups = document.querySelectorAll(".popup");
 popups.forEach((popup) => {
   popup.addEventListener("mousedown", (evt) => {
@@ -92,6 +103,7 @@ function openPopup(popup) {
 }
 
 //Editing the profile & opening the modal
+
 profileButtonEdit.addEventListener("click", function openEditProfile() {
   openPopup(profileModal);
   profileModalInputName.value = profileTitle.textContent;
@@ -99,6 +111,7 @@ profileButtonEdit.addEventListener("click", function openEditProfile() {
 });
 
 //Submitting the form
+
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = profileModalInputName.value;
@@ -111,28 +124,34 @@ function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
-  // Task 6 - Image Modal Creation
+
+  // Image Modal Creation and handler
+
+  const cardImageAlt = `${cardData.name}`;
+  cardTitle.textContent = `${cardData.name}`;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardImageAlt;
+
   cardImage.addEventListener("click", () => {
-    openPopup(modalImagePreview);
-    handleImageClick();
+    handleImageClick(cardData);
   });
 
   const handleImageClick = () => {
-    modalImage.src = cardImage.src;
-    modalTitleSmall.textContent = cardTitle.textContent;
-    modalImage.alt = cardTitle.textContent;
+    modalImage.src = cardData.link;
+    modalTitleSmall.textContent = `${cardData.name}`;
+    modalImage.alt = `${cardData.name}`;
+    openPopup(modalImagePreview);
   };
 
-  const cardImageAlt = cardData.name;
-  cardTitle.textContent = cardData.name;
-  cardImage.src = cardData.link;
-  cardImage.alt = cardImageAlt;
-  //Task 4 Making the like buttons work
+  //Like buttons handler
+
   const likeButton = cardElement.querySelector(".card__like-button");
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
-  //Task 5 Making the delete buttons work
+
+  //Delete buttons handler
+
   const deleteButton = cardElement.querySelector(".card__delete-button");
   deleteButton.addEventListener("click", () => {
     cardElement.remove();
@@ -140,18 +159,19 @@ function getCardElement(cardData) {
   return cardElement;
 }
 
-//Task 1 Changing the for loop to forEach method
+// Cards Prepending
 initialCards.forEach((cardData) => {
   const cardElement = getCardElement(cardData);
   cardsList.prepend(cardElement);
 });
 
-//Task 2 Adding the new card
-buttonAdd.addEventListener("click", () => {
+// New card handler
+addCardButton.addEventListener("click", () => {
   openPopup(modalAddCard);
 });
 
-//Adding the new place and submitting the form
+// Form Submit Handler
+
 function submitAddPlaceModal(evt) {
   evt.preventDefault();
   const userInput = {
@@ -167,13 +187,16 @@ function submitAddPlaceModal(evt) {
 
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
-// Adding an option to close the popup by the ESC press
+// Escape button handler
+
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
     const openedPopup = document.querySelector(".popup_open");
     closePopup(openedPopup);
   }
 }
+
+// import FormValidator from "../components/FormValidator";
 
 // Universal handler for close buttons
 // const closeButtons = document.querySelectorAll(".popup__close");
