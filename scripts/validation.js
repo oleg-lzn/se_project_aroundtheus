@@ -91,6 +91,6 @@ const config = {
 enableValidation(config);
 
 //resetting the validation
-// export const resetValidation = (config) => {
+// const resetValidation = (config) => {
 //   hideInputError(form, inputElement, config);
 // };

@@ -71,9 +71,6 @@ const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
 function closePopup(popup) {
   popup.classList.remove("popup_open");
   document.removeEventListener("keydown", escapeHandler);
-
-  // Remarks to the reviewer.
-  // Thanks a lot for the explanation! Very cool and helpful.
 }
 
 //Task 3 Universal popup close handler
@@ -117,10 +114,15 @@ function getCardElement(cardData) {
   // Task 6 - Image Modal Creation
   cardImage.addEventListener("click", () => {
     openPopup(modalImagePreview);
+    handleImageClick();
+  });
+
+  const handleImageClick = () => {
     modalImage.src = cardImage.src;
     modalTitleSmall.textContent = cardTitle.textContent;
     modalImage.alt = cardTitle.textContent;
-  });
+  };
+
   const cardImageAlt = cardData.name;
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
