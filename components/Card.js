@@ -1,10 +1,11 @@
+// import { handleImageClick } from "../pages/index.js";
+
 class Card {
-  constructor({ name, link }, cardSelector) {
+  constructor({ name, link }, cardSelector, handleImageClick) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
-    // // this._handleImageClick = handleImageClick;
-    // handleImageClick
+    this._handleImageClick = handleImageClick;
   }
   getView() {
     this._getCardTemplate();
@@ -29,11 +30,13 @@ class Card {
       this.cardElement.remove();
     });
 
-    //handling image click button
+    // Image Click handler
 
-    // this._cardImageElement.addEventListener("click", () => {
-    //   this._handleImageClick(this);
-    // });
+    this.cardElement
+      .querySelector(".card__image")
+      .addEventListener("click", () => {
+        this._handleImageClick(this);
+      });
   }
 
   _getCardTemplate() {
@@ -58,24 +61,4 @@ class Card {
     return this.cardElement;
   }
 }
-
-// this._handeImageClick = handleImageClick;
-// this._card__like-button = data.likebutton;
-// this._card__delete-button = data.deletebutton;
-
-//     this._cardImage.addEventListener("click", () => {
-//       this._handleImageClick(this);
-//     });
-//   }
-
-//   _handleButtonsClick(cardElement) {
-//     // method for like button handling
-//     const likeButton = cardElement.querySelector(".card__like-button");
-//     likeButton.addEventListener("click", () => {
-//       likeButton.classList.toggle("card__like-button_active");
-//     });
-
-//   }
-// }
-
 export default Card;

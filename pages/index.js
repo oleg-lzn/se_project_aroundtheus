@@ -1,4 +1,4 @@
-import Card from "../components/Card.js";
+// import Card from "../components/Card.js";
 
 // const cardData = {
 //   name: "Yosemite Valley",
@@ -66,11 +66,11 @@ const modalImage = modalImagePreview.querySelector(".popup__image");
 const modalTitleSmall = modalImagePreview.querySelector(".popup__title-small");
 
 // Buttons
-const profileButtonClose = profileModal.querySelector(".popup__close");
+// const profileButtonClose = profileModal.querySelector(".popup__close");
 const profileButtonEdit = profile.querySelector(".profile__edit-button");
 const addCardButton = profile.querySelector(".profile__add-button");
-const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
-const addCardButtonClose = modalAddCard.querySelector(".popup__close");
+// const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
+// const addCardButtonClose = modalAddCard.querySelector(".popup__close");
 
 // Forms
 const modalAddCardForm = document.forms["new-card-form"];
@@ -121,48 +121,50 @@ function handleProfileFormSubmit(evt) {
 profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
 function getCardElement(cardData) {
+  // Card rendering
   const cardElement = cardTemplate.cloneNode(true);
-  const cardTitle = cardElement.querySelector(".card__title");
   const cardImage = cardElement.querySelector(".card__image");
-
-  // Image Modal Creation and handler
-
-  const cardImageAlt = `${cardData.name}`;
-  cardTitle.textContent = `${cardData.name}`;
+  const likeButton = cardElement.querySelector(".card__like-button");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  cardElement.querySelector(".card__title").textContent = `${cardData.name}`;
   cardImage.src = cardData.link;
-  cardImage.alt = cardImageAlt;
+  cardImage.alt = `${cardData.name}`;
+
+  likeButton.addEventListener("click", likeButtonHandler);
+  deleteButton.addEventListener("click", deleteButtonHandler);
 
   cardImage.addEventListener("click", () => {
     handleImageClick(cardData);
   });
 
-  const handleImageClick = () => {
-    modalImage.src = cardData.link;
-    modalTitleSmall.textContent = `${cardData.name}`;
-    modalImage.alt = `${cardData.name}`;
-    openPopup(modalImagePreview);
-  };
-
-  //Like buttons handler
-
-  const likeButton = cardElement.querySelector(".card__like-button");
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
-  });
-
-  //Delete buttons handler
-
-  const deleteButton = cardElement.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", () => {
-    cardElement.remove();
-  });
   return cardElement;
 }
 
+// Like button handler
+const likeButtonHandler = (evt) => {
+  evt.currentTarget.classList.toggle("card__like-button_active");
+};
+
+//Delete buttons handler
+const deleteButtonHandler = (evt) => {
+  const card = evt.target.closest(".card");
+  if (card) {
+    card.remove();
+  }
+};
+
+// Image Modal handler
+
+const handleImageClick = (cardData) => {
+  modalImage.src = cardData.link;
+  modalTitleSmall.textContent = `${cardData.name}`;
+  modalImage.alt = `${cardData.name}`;
+  openPopup(modalImagePreview);
+};
+
 // Cards Prepending
 initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardsList.prepend(cardElement);
+  cardsList.prepend(getCardElement(cardData));
 });
 
 // New card handler
@@ -195,6 +197,8 @@ function escapeHandler(evt) {
     closePopup(openedPopup);
   }
 }
+
+// export { handleImageClick };
 
 // import FormValidator from "../components/FormValidator";
 
