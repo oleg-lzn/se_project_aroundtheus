@@ -1,12 +1,4 @@
-// import Card from "../components/Card.js";
-
-// const cardData = {
-//   name: "Yosemite Valley",
-//   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-// };
-
-// const card = new Card(cardData, "#card-template");
-// card.getView();
+import Card from "../components/Card.js";
 
 //Declaring the variables
 const initialCards = [
@@ -103,7 +95,6 @@ function openPopup(popup) {
 }
 
 //Editing the profile & opening the modal
-
 profileButtonEdit.addEventListener("click", function openEditProfile() {
   openPopup(profileModal);
   profileModalInputName.value = profileTitle.textContent;
@@ -111,26 +102,26 @@ profileButtonEdit.addEventListener("click", function openEditProfile() {
 });
 
 //Submitting the form
-
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileTitle.textContent = profileModalInputName.value;
   profileSubtitle.textContent = profileModalInputSubtitle.value;
   closePopup(profileModal);
 }
+
 profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
 function getCardElement(cardData) {
   // Card rendering
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
-  const likeButton = cardElement.querySelector(".card__like-button");
+  // const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__delete-button");
   cardElement.querySelector(".card__title").textContent = `${cardData.name}`;
   cardImage.src = cardData.link;
   cardImage.alt = `${cardData.name}`;
 
-  likeButton.addEventListener("click", likeButtonHandler);
+  // likeButton.addEventListener("click", likeButtonHandler);
   deleteButton.addEventListener("click", deleteButtonHandler);
 
   cardImage.addEventListener("click", () => {
@@ -141,20 +132,16 @@ function getCardElement(cardData) {
 }
 
 // Like button handler
-const likeButtonHandler = (evt) => {
-  evt.currentTarget.classList.toggle("card__like-button_active");
-};
+// const likeButtonHandler = (evt) => {
+//   evt.currentTarget.classList.toggle("card__like-button_active");
+// };
 
-//Delete buttons handler
+// //Delete buttons handler
 const deleteButtonHandler = (evt) => {
-  const card = evt.target.closest(".card");
-  if (card) {
-    card.remove();
-  }
+  evt.target.closest(".card").remove();
 };
 
 // Image Modal handler
-
 const handleImageClick = (cardData) => {
   modalImage.src = cardData.link;
   modalTitleSmall.textContent = `${cardData.name}`;
@@ -173,7 +160,6 @@ addCardButton.addEventListener("click", () => {
 });
 
 // Form Submit Handler
-
 function submitAddPlaceModal(evt) {
   evt.preventDefault();
   const userInput = {
@@ -190,7 +176,6 @@ function submitAddPlaceModal(evt) {
 modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
 // Escape button handler
-
 function escapeHandler(evt) {
   if (evt.key === "Escape") {
     const openedPopup = document.querySelector(".popup_open");
@@ -198,7 +183,15 @@ function escapeHandler(evt) {
   }
 }
 
-// export { handleImageClick };
+const cardData = {
+  name: "Yosemite Valley",
+  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+};
+
+const card = new Card(cardData, "#card-template");
+card.getView();
+
+export { handleImageClick };
 
 // import FormValidator from "../components/FormValidator";
 
