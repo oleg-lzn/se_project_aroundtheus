@@ -1,4 +1,5 @@
 import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
 
 //Declaring the variables
 const initialCards = [
@@ -58,11 +59,8 @@ const modalImage = modalImagePreview.querySelector(".popup__image");
 const modalTitleSmall = modalImagePreview.querySelector(".popup__title-small");
 
 // Buttons
-// const profileButtonClose = profileModal.querySelector(".popup__close");
 const profileButtonEdit = profile.querySelector(".profile__edit-button");
 const addCardButton = profile.querySelector(".profile__add-button");
-// const buttonCloseImageModal = modalImagePreview.querySelector(".popup__close");
-// const addCardButtonClose = modalAddCard.querySelector(".popup__close");
 
 // Forms
 const modalAddCardForm = document.forms["new-card-form"];
@@ -96,6 +94,8 @@ function openPopup(popup) {
 
 //Editing the profile & opening the modal
 profileButtonEdit.addEventListener("click", function openEditProfile() {
+  //resetting validation and errors on opening the profile modal
+  profileValidator.resetValidation();
   openPopup(profileModal);
   profileModalInputName.value = profileTitle.textContent;
   profileModalInputSubtitle.value = profileSubtitle.textContent;
@@ -180,7 +180,11 @@ function submitAddPlaceModal(evt) {
   modalAddCardInputUrl.value = "";
 }
 
-modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
+modalAddCardForm.addEventListener("submit", (evt) => {
+  submitAddPlaceModal(evt);
+  //resetting validation and errors on submitting the add card modal
+  addCardValidator.resetValidation();
+});
 
 // Escape button handler
 function escapeHandler(evt) {
@@ -190,9 +194,13 @@ function escapeHandler(evt) {
   }
 }
 
-export { handleImageClick };
+const addCardValidator = new FormValidator(config, modalAddCardForm);
+const profileValidator = new FormValidator(config, profileModalForm);
 
-// import FormValidator from "../components/FormValidator";
+addCardValidator.enableValidation(config, modalAddCardForm);
+profileValidator.enableValidation(config, profileModalForm);
+
+export { handleImageClick };
 
 // Universal handler for close buttons
 // const closeButtons = document.querySelectorAll(".popup__close");

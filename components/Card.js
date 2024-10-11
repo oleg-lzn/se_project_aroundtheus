@@ -9,7 +9,6 @@ class Card {
   }
 
   _getCardTemplate() {
-    // alert("You did it");
     // Here goes the method for card template creation and copying
     const cardTemplate = document
       .querySelector(this._cardSelector)
@@ -18,7 +17,6 @@ class Card {
   }
 
   _setEventListeners() {
-    // alert("You did it");
     //Here goes the part of code, responsible for the event listeners
 
     //like button
@@ -44,7 +42,6 @@ class Card {
   }
 
   _renderCard() {
-    // alert("You did it");
     // Here goes the method for card rendering and filling it with data
     this._cardElement = this._getCardTemplate();
     this._setEventListeners();
