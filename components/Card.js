@@ -38,14 +38,14 @@ class Card {
     this._cardElement
       .querySelector(".card__like-button")
       .addEventListener("click", () => {
-        _handleLikeButton();
+        this._handleLikeButton();
       });
 
     //delete button
     this._cardElement
       .querySelector(".card__delete-button")
       .addEventListener("click", () => {
-        _deleteButtonHandler();
+        this._deleteButtonHandler();
       });
 
     //Image handler
