@@ -1,7 +1,7 @@
 import { handleImageClick } from "../pages/index.js";
 
 class Card {
-  constructor({ name, link }, cardSelector) {
+  constructor({ name, link }, cardSelector, _handleImageClick) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
@@ -15,19 +15,6 @@ class Card {
       .querySelector(this._cardSelector)
       .content.firstElementChild.cloneNode(true);
     return cardTemplate;
-  }
-
-  _renderCard() {
-    // alert("You did it");
-    // Here goes the method for card rendering and filling it with data
-    this._cardElement = this._getCardTemplate();
-    this._cardElement.querySelector(".card__title").textContent = this._name;
-    this._cardElement.querySelector(
-      ".card__image"
-    ).style.backgroundImage = `url(${this._link})`;
-    // console.log(this._cardElement);
-
-    return this._cardElement;
   }
 
   _setEventListeners() {
@@ -52,12 +39,22 @@ class Card {
     this._cardElement
       .querySelector(".card__image")
       .addEventListener("click", () => {
-        this._handleImageClick(this);
+        this._handleImageClick({ name: this._name, link: this._link });
       });
   }
 
-  //   handlers for like and delete buttons
+  _renderCard() {
+    // alert("You did it");
+    // Here goes the method for card rendering and filling it with data
+    this._cardElement = this._getCardTemplate();
+    this._setEventListeners();
 
+    this._cardElement.querySelector(".card__title").textContent = this._name;
+    this._cardElement.querySelector(".card__image").src = this._link;
+    this._cardElement.querySelector(".card__image").alt = this._name;
+  }
+
+  //   handlers for like and delete buttons
   _deleteButtonHandler() {
     this._cardElement.remove();
     this._cardElement = null;
@@ -70,9 +67,7 @@ class Card {
   }
 
   getView() {
-    this._getCardTemplate();
     this._renderCard();
-    this._setEventListeners();
     return this._cardElement;
   }
 }

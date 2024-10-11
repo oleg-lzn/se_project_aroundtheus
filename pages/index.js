@@ -116,13 +116,13 @@ function getCardElement(cardData) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
   // const likeButton = cardElement.querySelector(".card__like-button");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
+  // const deleteButton = cardElement.querySelector(".card__delete-button");
   cardElement.querySelector(".card__title").textContent = `${cardData.name}`;
   cardImage.src = cardData.link;
   cardImage.alt = `${cardData.name}`;
 
   // likeButton.addEventListener("click", likeButtonHandler);
-  deleteButton.addEventListener("click", deleteButtonHandler);
+  // deleteButton.addEventListener("click", deleteButtonHandler);
 
   cardImage.addEventListener("click", () => {
     handleImageClick(cardData);
@@ -137,9 +137,9 @@ function getCardElement(cardData) {
 // };
 
 // //Delete buttons handler
-const deleteButtonHandler = (evt) => {
-  evt.target.closest(".card").remove();
-};
+// const deleteButtonHandler = (evt) => {
+//   evt.target.closest(".card").remove();
+// };
 
 // Image Modal handler
 const handleImageClick = (cardData) => {
@@ -149,10 +149,17 @@ const handleImageClick = (cardData) => {
   openPopup(modalImagePreview);
 };
 
-// Cards Prepending
-initialCards.forEach((cardData) => {
-  cardsList.prepend(getCardElement(cardData));
+// // Cards Prepending
+
+initialCards.forEach((card) => {
+  const newCard = new Card(card, "#card-template", handleImageClick);
+  const cardElement = newCard.getView();
+  cardsList.prepend(cardElement);
 });
+
+// initialCards.forEach((card) => {
+//   cardsList.prepend(getCardElement(card));
+// });
 
 // New card handler
 addCardButton.addEventListener("click", () => {
@@ -182,14 +189,6 @@ function escapeHandler(evt) {
     closePopup(openedPopup);
   }
 }
-
-const cardData = {
-  name: "Yosemite Valley",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
-};
-
-const card = new Card(cardData, "#card-template");
-card.getView();
 
 export { handleImageClick };
 
