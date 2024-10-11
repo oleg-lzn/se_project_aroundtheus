@@ -194,6 +194,15 @@ function escapeHandler(evt) {
   }
 }
 
+const config = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
+
 const addCardValidator = new FormValidator(config, modalAddCardForm);
 const profileValidator = new FormValidator(config, profileModalForm);
 
