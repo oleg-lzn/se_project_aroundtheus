@@ -111,36 +111,6 @@ function handleProfileFormSubmit(evt) {
 
 profileModalForm.addEventListener("submit", handleProfileFormSubmit);
 
-function getCardElement(cardData) {
-  // Card rendering
-  const cardElement = cardTemplate.cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  // const likeButton = cardElement.querySelector(".card__like-button");
-  // const deleteButton = cardElement.querySelector(".card__delete-button");
-  cardElement.querySelector(".card__title").textContent = `${cardData.name}`;
-  cardImage.src = cardData.link;
-  cardImage.alt = `${cardData.name}`;
-
-  // likeButton.addEventListener("click", likeButtonHandler);
-  // deleteButton.addEventListener("click", deleteButtonHandler);
-
-  cardImage.addEventListener("click", () => {
-    handleImageClick(cardData);
-  });
-
-  return cardElement;
-}
-
-// Like button handler
-// const likeButtonHandler = (evt) => {
-//   evt.currentTarget.classList.toggle("card__like-button_active");
-// };
-
-// //Delete buttons handler
-// const deleteButtonHandler = (evt) => {
-//   evt.target.closest(".card").remove();
-// };
-
 // Image Modal handler
 const handleImageClick = (cardData) => {
   modalImage.src = cardData.link;
@@ -149,17 +119,17 @@ const handleImageClick = (cardData) => {
   openPopup(modalImagePreview);
 };
 
-// // Cards Prepending
+// Render card function
+function renderCard(item, method = "prepend") {
+  const newCard = new Card(item, "#card-template", handleImageClick);
+  const readyCard = newCard.getView();
+  cardsList[method](readyCard);
+}
 
+// Cards prepending
 initialCards.forEach((card) => {
-  const newCard = new Card(card, "#card-template", handleImageClick);
-  const cardElement = newCard.getView();
-  cardsList.prepend(cardElement);
+  renderCard(card);
 });
-
-// initialCards.forEach((card) => {
-//   cardsList.prepend(getCardElement(card));
-// });
 
 // New card handler
 addCardButton.addEventListener("click", () => {
@@ -173,8 +143,7 @@ function submitAddPlaceModal(evt) {
     name: modalAddCardInputPlace.value,
     link: modalAddCardInputUrl.value,
   };
-  const newCard = getCardElement(userInput);
-  cardsList.prepend(newCard);
+  renderCard(userInput);
   closePopup(modalAddCard);
   modalAddCardInputPlace.value = "";
   modalAddCardInputUrl.value = "";
@@ -232,8 +201,3 @@ export { handleImageClick };
 //     }
 //   });
 // });
-
-// function renderCard(item, method = "prepend") {
-//   const cardElement = getCardElement(item);
-//   cardsList[method](cardElement);
-// }
