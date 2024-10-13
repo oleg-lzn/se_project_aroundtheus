@@ -77,7 +77,7 @@ class FormValidator {
     submitButton.disabled = false;
   }
 
-  _hasInvalidInput(inputList) {
+  _hasInvalidInput() {
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     });
