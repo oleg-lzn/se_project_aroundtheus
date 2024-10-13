@@ -7,11 +7,6 @@ class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
-
-    // Question to the reviewer.
-    // I have several inputElement calls in the FormValidator file.
-    // I deleted the parameters in the methods disable button and enable button, changed them
-    // to this._ and this works. Can I do the same with the inputElement in this code, name it this._inputElement
   }
 
   // ultimate method for form validation

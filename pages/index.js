@@ -147,16 +147,10 @@ function submitAddPlaceModal(evt) {
   closePopup(modalAddCard);
   modalAddCardInputPlace.value = "";
   modalAddCardInputUrl.value = "";
+  formValidators["new-card-form"].disableButton();
 }
 
-modalAddCardForm.addEventListener("submit", (evt) => {
-  submitAddPlaceModal(evt);
-  //resetting validation and errors on submitting the add card modal
-  const submitCardButton = modalAddCardForm.querySelector(
-    config.submitButtonSelector
-  );
-  formValidators["new-card-form"].disableButton();
-});
+modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
 
 // Escape button handler
 function escapeHandler(evt) {
@@ -189,25 +183,3 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
-
-// Universal handler for close buttons
-// const closeButtons = document.querySelectorAll(".popup__close");
-
-// closeButtons.forEach((button) => {
-//   const popup = button.closest(".popup");
-//   button.addEventListener("click", () => {
-//     closePopup(popup);
-//   });
-// });
-
-//Adding an option to close the popup by the click outside of it
-
-// popups.forEach((popup) => {
-//   const popupContent = popup.querySelector("#popup__container");
-//   popup.addEventListener("click", (evt) => {
-//     // if click is committed outside of the popup - close it
-//     if (!popupContent.contains(evt.target)) {
-//       closePopup(popup);
-//     }
-//   });
-// });
