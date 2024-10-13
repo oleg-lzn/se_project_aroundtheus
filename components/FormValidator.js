@@ -1,12 +1,12 @@
 class FormValidator {
   constructor(config, form) {
-    (this._form = form),
-      (this._formSelector = config.formSelector),
-      (this._inputSelector = config.inputSelector),
-      (this._submitButtonSelector = config.submitButtonSelector),
-      (this._inactiveButtonClass = config.inactiveButtonClass),
-      (this._inputErrorClass = config.inputErrorClass),
-      (this._errorClass = config.errorClass);
+    this._form = form;
+    this._formSelector = config.formSelector;
+    this._inputSelector = config.inputSelector;
+    this._submitButtonSelector = config.submitButtonSelector;
+    this._inactiveButtonClass = config.inactiveButtonClass;
+    this._inputErrorClass = config.inputErrorClass;
+    this._errorClass = config.errorClass;
   }
 
   // ultimate method for form validation
@@ -92,9 +92,6 @@ class FormValidator {
   }
 
   resetValidation() {
-    this._inputList = Array.from(
-      this._form.querySelectorAll(this._inputSelector)
-    );
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement);
       inputElement.value = "";
@@ -102,14 +99,5 @@ class FormValidator {
     this._disableButton(this._submitButton);
   }
 }
-
-const config = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
 
 export default FormValidator;

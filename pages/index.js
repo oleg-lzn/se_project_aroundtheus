@@ -95,7 +95,7 @@ function openPopup(popup) {
 //Editing the profile & opening the modal
 profileButtonEdit.addEventListener("click", function openEditProfile() {
   //resetting validation and errors on opening the profile modal
-  profileValidator.resetValidation();
+  formValidators["profile-form"].resetValidation();
   openPopup(profileModal);
   profileModalInputName.value = profileTitle.textContent;
   profileModalInputSubtitle.value = profileSubtitle.textContent;
@@ -152,7 +152,10 @@ function submitAddPlaceModal(evt) {
 modalAddCardForm.addEventListener("submit", (evt) => {
   submitAddPlaceModal(evt);
   //resetting validation and errors on submitting the add card modal
-  addCardValidator.resetValidation();
+  const submitCardButton = modalAddCardForm.querySelector(
+    config.submitButtonSelector
+  );
+  formValidators["new-card-form"]._disableButton(submitCardButton);
 });
 
 // Escape button handler
@@ -172,13 +175,26 @@ const config = {
   errorClass: "popup__error_visible",
 };
 
-const addCardValidator = new FormValidator(config, modalAddCardForm);
-const profileValidator = new FormValidator(config, profileModalForm);
+// Universal handler for forms validation
+const formValidators = {};
 
-addCardValidator.enableValidation(config, modalAddCardForm);
-profileValidator.enableValidation(config, profileModalForm);
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((form) => {
+    const validator = new FormValidator(config, form);
+    const formId = form.getAttribute("id");
 
-export { handleImageClick };
+    // Comment to the reviewer.
+    // This is very cool. I understood the first part about making an array of forms,
+    // class instantiation for each of them and storing them in the object.
+    // I have id's here instead of names.
+
+    formValidators[formId] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(config);
 
 // Universal handler for close buttons
 // const closeButtons = document.querySelectorAll(".popup__close");
