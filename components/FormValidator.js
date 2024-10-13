@@ -7,6 +7,11 @@ class FormValidator {
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
     this._errorClass = config.errorClass;
+
+    // Question to the reviewer.
+    // I have several inputElement calls in the FormValidator file.
+    // I deleted the parameters in the methods disable button and enable button, changed them
+    // to this._ and this works. Can I do the same with the inputElement in this code, name it this._inputElement
   }
 
   // ultimate method for form validation
@@ -29,7 +34,7 @@ class FormValidator {
         //check input validity
         this._checkInputValidity(inputElement);
         //disable the button if input is not valid
-        this._toggleButtonState(this._inputList, this._submitButton); // check
+        this._toggleButtonState(); // check
       });
     });
   }
@@ -67,14 +72,14 @@ class FormValidator {
   }
 
   // Toggling the button state
-  _disableButton(submitButton) {
-    submitButton.classList.add(this._inactiveButtonClass);
-    submitButton.disabled = true;
+  disableButton() {
+    this._submitButton.classList.add(this._inactiveButtonClass);
+    this._submitButton.disabled = true;
   }
 
-  _enableButton(submitButton) {
-    submitButton.classList.remove(this._inactiveButtonClass);
-    submitButton.disabled = false;
+  _enableButton() {
+    this._submitButton.classList.remove(this._inactiveButtonClass);
+    this._submitButton.disabled = false;
   }
 
   _hasInvalidInput() {
@@ -83,11 +88,11 @@ class FormValidator {
     });
   }
 
-  _toggleButtonState(inputList, submitButton) {
-    if (this._hasInvalidInput(inputList)) {
-      this._disableButton(submitButton);
+  _toggleButtonState() {
+    if (this._hasInvalidInput()) {
+      this.disableButton();
     } else {
-      this._enableButton(submitButton);
+      this._enableButton();
     }
   }
 
@@ -96,7 +101,7 @@ class FormValidator {
       this._hideInputError(inputElement);
       inputElement.value = "";
     });
-    this._disableButton(this._submitButton);
+    this.disableButton();
   }
 }
 

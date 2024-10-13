@@ -155,7 +155,7 @@ modalAddCardForm.addEventListener("submit", (evt) => {
   const submitCardButton = modalAddCardForm.querySelector(
     config.submitButtonSelector
   );
-  formValidators["new-card-form"]._disableButton(submitCardButton);
+  formValidators["new-card-form"].disableButton();
 });
 
 // Escape button handler
@@ -183,12 +183,6 @@ const enableValidation = (config) => {
   formList.forEach((form) => {
     const validator = new FormValidator(config, form);
     const formId = form.getAttribute("id");
-
-    // Comment to the reviewer.
-    // This is very cool. I understood the first part about making an array of forms,
-    // class instantiation for each of them and storing them in the object.
-    // I have id's here instead of names.
-
     formValidators[formId] = validator;
     validator.enableValidation();
   });
