@@ -8,7 +8,6 @@
     <meta name="description" content="Oleg Around the U.S responsive page" />
     <meta name="keywords" content="united states travel" />
     <title>Around The U.S</title>
-    <link rel="stylesheet" href="./pages/index.css" />
     <link rel="icon" href='./images/favicon.svg'/>
   </head>
   <body class="page">
@@ -16,7 +15,7 @@
       <header class="header">
         <img
           class="header__image"
-          src="./images/Vector_logo.svg"
+          src="<%=require('./images/Vector_logo.svg')%>"
           alt="Around the U.S logo"
         />
       </header>
@@ -24,7 +23,7 @@
         <section class="profile page__section">
           <img
             class="profile__avatar"
-            src="./images/jacques-cousteau.svg"
+            src="<%=require('./images/jacques-cousteau.svg')%>"
             alt="Jacques Cousteau image"
           />
           <div class="profile__info">
@@ -118,7 +117,5 @@
         </div>
       </li>
     </template>
-    <script  type ='module' src="./pages/index.js"></script>
-    <script type ='module' src ='./components/Card.js'></script>
   </body>
 </html>
