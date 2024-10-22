@@ -1,174 +1,52 @@
+// Import all the classes
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import "../pages/index.css";
+import Section from "../components/Section.js";
+import { initialCards, addCardButton } from "../utils/constants.js";
+import { config } from "../utils/constants.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
 
-//Declaring the variables
-const initialCards = [
+// Create the instances of the classes
+const imagePopup = new PopupWithImage("#imageOpen");
+const cardsList = new Section(
   {
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
+    items: initialCards,
+    renderer: (item) => {
+      const newCard = new Card(item, "#card-template", () =>
+        imagePopup.open(item)
+      );
+      const newCardElement = newCard.getView();
+      cardsList.addItem(newCardElement);
+    },
   },
+  config.cardsListSelector
+);
+// Initialize all my instances
+cardsList.renderItems();
+imagePopup.setEventListeners();
 
-  {
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lake-louise.jpg",
+// Creating a popup with add card form
+const newCardPopup = new PopupWithForm({
+  popupSelector: "#addElement",
+  handleFormSubmit: () => {
+    const userInput = newCardPopup._getInputValues();
+    const newUserCard = new Card(
+      { name: userInput.title, link: userInput.url },
+      "#card-template"
+    );
+    cardsList.addItem(newUserCard.getView());
+    newCardPopup.close();
   },
-
-  {
-    name: "Bald Mountains",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/bald-mountains.jpg",
-  },
-
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/latemar.jpg",
-  },
-
-  {
-    name: "Vanoise National Park",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/vanoise.jpg",
-  },
-
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
-  },
-];
-
-// Templates
-const cardTemplate =
-  document.querySelector("#card-template").content.firstElementChild;
-
-// Variables
-const profile = document.querySelector(".profile");
-const profileTitle = profile.querySelector(".profile__title");
-const profileSubtitle = profile.querySelector(".profile__subtitle");
-const profileModal = document.querySelector(".popup");
-const profileModalInputName = profileModal.querySelector("[name=name]");
-const profileModalInputSubtitle =
-  profileModal.querySelector("[name=description]");
-const cardsList = document.querySelector(".cards__list");
-
-// Variables for the Add Place Modal
-const modalAddCard = document.getElementById("addElement");
-const modalAddCardInputPlace = modalAddCard.querySelector("[name=title]");
-const modalAddCardInputUrl = modalAddCard.querySelector("[name=url]");
-
-// Variables for image modal
-const modalImagePreview = document.getElementById("imageOpen");
-const modalImage = modalImagePreview.querySelector(".popup__image");
-const modalTitleSmall = modalImagePreview.querySelector(".popup__title-small");
-
-// Buttons
-const profileButtonEdit = profile.querySelector(".profile__edit-button");
-const addCardButton = profile.querySelector(".profile__add-button");
-
-// Forms
-const modalAddCardForm = document.forms["new-card-form"];
-const profileModalForm = document.forms["profile-form"];
-
-//Universal functions for opening and closing modals
-
-function closePopup(popup) {
-  popup.classList.remove("popup_open");
-  document.removeEventListener("keydown", escapeHandler);
-}
-
-//Universal popup close handler
-
-const popups = document.querySelectorAll(".popup");
-popups.forEach((popup) => {
-  popup.addEventListener("mousedown", (evt) => {
-    if (
-      evt.target.classList.contains("popup_open") ||
-      evt.target.classList.contains("popup__close")
-    ) {
-      closePopup(popup);
-    }
-  });
 });
 
-function openPopup(popup) {
-  popup.classList.add("popup_open");
-  document.addEventListener("keydown", escapeHandler);
-}
-
-//Editing the profile & opening the modal
-profileButtonEdit.addEventListener("click", function openEditProfile() {
-  //resetting validation and errors on opening the profile modal
-  formValidators["profile-form"].resetValidation();
-  openPopup(profileModal);
-  profileModalInputName.value = profileTitle.textContent;
-  profileModalInputSubtitle.value = profileSubtitle.textContent;
-});
-
-//Submitting the form
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  profileTitle.textContent = profileModalInputName.value;
-  profileSubtitle.textContent = profileModalInputSubtitle.value;
-  closePopup(profileModal);
-}
-
-profileModalForm.addEventListener("submit", handleProfileFormSubmit);
-
-// Image Modal handler
-const handleImageClick = (cardData) => {
-  modalImage.src = cardData.link;
-  modalTitleSmall.textContent = `${cardData.name}`;
-  modalImage.alt = `${cardData.name}`;
-  openPopup(modalImagePreview);
-};
-
-// Render card function
-function renderCard(item, method = "prepend") {
-  const newCard = new Card(item, "#card-template", handleImageClick);
-  const readyCard = newCard.getView();
-  cardsList[method](readyCard);
-}
-
-// Cards prepending
-initialCards.forEach((card) => {
-  renderCard(card);
-});
-
-// New card handler
+// Add new card button handler
 addCardButton.addEventListener("click", () => {
-  openPopup(modalAddCard);
+  newCardPopup.open();
 });
 
-// Form Submit Handler
-function submitAddPlaceModal(evt) {
-  evt.preventDefault();
-  const userInput = {
-    name: modalAddCardInputPlace.value,
-    link: modalAddCardInputUrl.value,
-  };
-  renderCard(userInput);
-  closePopup(modalAddCard);
-  modalAddCardInputPlace.value = "";
-  modalAddCardInputUrl.value = "";
-  formValidators["new-card-form"].disableButton();
-}
-
-modalAddCardForm.addEventListener("submit", submitAddPlaceModal);
-
-// Escape button handler
-function escapeHandler(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_open");
-    closePopup(openedPopup);
-  }
-}
-
-const config = {
-  formSelector: ".popup__form",
-  inputSelector: ".popup__input",
-  submitButtonSelector: ".popup__button",
-  inactiveButtonClass: "popup__button_disabled",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__error_visible",
-};
+newCardPopup.setEventListeners();
 
 // Universal handler for forms validation
 const formValidators = {};

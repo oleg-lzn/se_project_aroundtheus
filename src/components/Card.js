@@ -1,4 +1,4 @@
-class Card {
+export class Card {
   constructor({ name, link }, cardSelector, handleImageClick) {
     this._name = name;
     this._link = link;
@@ -40,10 +40,10 @@ class Card {
     this._cardImage = this._cardElement.querySelector(".card__image");
     this._trashButton = this._cardElement.querySelector(".card__delete-button");
     this._cardTitle = this._cardElement.querySelector(".card__title");
-    this._setEventListeners();
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
+    this._setEventListeners();
   }
 
   //   handlers for like and delete buttons
