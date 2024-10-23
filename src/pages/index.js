@@ -40,9 +40,11 @@ const newCardPopup = new PopupWithForm({
   handleFormSubmit: (userInput) => {
     const newUserCard = new Card(
       { name: userInput.title, link: userInput.url },
-      "#card-template"
+      "#card-template",
+      () => imagePopup.open({ name: userInput.title, link: userInput.url })
     );
     cardsList.addItem(newUserCard.getView());
+    ``;
     newCardPopup.close();
     formValidators["new-card-form"].disableButton();
   },
