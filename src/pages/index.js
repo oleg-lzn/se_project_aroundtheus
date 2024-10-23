@@ -3,10 +3,18 @@ import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import "../pages/index.css";
 import Section from "../components/Section.js";
-import { initialCards, addCardButton } from "../utils/constants.js";
+import {
+  initialCards,
+  addCardButton,
+  profileButtonEdit,
+  profileModalInputName,
+  profileModalInputSubtitle,
+  profileModalForm,
+} from "../utils/constants.js";
 import { config } from "../utils/constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
 
 // Create the instances of the classes
 const imagePopup = new PopupWithImage("#imageOpen");
@@ -17,8 +25,7 @@ const cardsList = new Section(
       const newCard = new Card(item, "#card-template", () =>
         imagePopup.open(item)
       );
-      const newCardElement = newCard.getView();
-      cardsList.addItem(newCardElement);
+      cardsList.addItem(newCard.getView());
     },
   },
   config.cardsListSelector
@@ -30,14 +37,14 @@ imagePopup.setEventListeners();
 // Creating a popup with add card form
 const newCardPopup = new PopupWithForm({
   popupSelector: "#addElement",
-  handleFormSubmit: () => {
-    const userInput = newCardPopup._getInputValues();
+  handleFormSubmit: (userInput) => {
     const newUserCard = new Card(
       { name: userInput.title, link: userInput.url },
       "#card-template"
     );
     cardsList.addItem(newUserCard.getView());
     newCardPopup.close();
+    formValidators["new-card-form"].disableButton();
   },
 });
 
@@ -47,6 +54,38 @@ addCardButton.addEventListener("click", () => {
 });
 
 newCardPopup.setEventListeners();
+
+// UserInfo popup
+const userPopup = new UserInfo(
+  {
+    nameSelector: ".profile__title",
+    descriptionSelector: ".profile__subtitle",
+  },
+  "#profileChange"
+);
+
+profileButtonEdit.addEventListener("click", () => {
+  formValidators["profile-form"].resetValidation();
+  userPopup.open();
+  const userData = userPopup.getUserInfo();
+  profileModalInputName.value = userData.name;
+  profileModalInputSubtitle.value = userData.description;
+});
+
+userPopup.setEventListeners();
+
+// Submitting the new profile data
+profileModalForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+
+  const newUserData = {
+    name: profileModalInputName.value,
+    description: profileModalInputSubtitle.value,
+  };
+
+  userPopup.setUserInfo(newUserData);
+  userPopup.close();
+});
 
 // Universal handler for forms validation
 const formValidators = {};
