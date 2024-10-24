@@ -1,8 +1,5 @@
-import Popup from "./popup";
-
-class UserInfo extends Popup {
-  constructor({ nameSelector, descriptionSelector }, popupSelector) {
-    super(popupSelector);
+class UserInfo {
+  constructor({ nameSelector, descriptionSelector }) {
     this._nameElement = document.querySelector(nameSelector);
     this._descriptionElement = document.querySelector(descriptionSelector);
   }
