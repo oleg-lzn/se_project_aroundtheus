@@ -18,19 +18,24 @@ import UserInfo from "../components/UserInfo.js";
 
 // Create the instances of the classes
 const imagePopup = new PopupWithImage("#imageOpen");
+function createCard(item) {
+  const cardElement = new Card(item, "#card-template", () =>
+    imagePopup.open(item)
+  );
+  return cardElement.getView();
+}
+
 const cardsList = new Section(
   {
     items: initialCards,
     renderer: (item) => {
-      const newCard = new Card(item, "#card-template", () =>
-        imagePopup.open(item)
-      );
-      cardsList.addItem(newCard.getView());
+      const newCard = createCard(item);
+      cardsList.addItem(newCard);
     },
   },
   config.cardsListSelector
 );
-// Initialize all my instances
+// Initialize an instance
 cardsList.renderItems();
 imagePopup.setEventListeners();
 
@@ -38,13 +43,11 @@ imagePopup.setEventListeners();
 const newCardPopup = new PopupWithForm({
   popupSelector: "#addElement",
   handleFormSubmit: (userInput) => {
-    const newUserCard = new Card(
-      { name: userInput.title, link: userInput.url },
-      "#card-template",
-      () => imagePopup.open({ name: userInput.title, link: userInput.url })
-    );
-    cardsList.addItem(newUserCard.getView());
-    ``;
+    const newUserCard = createCard({
+      name: userInput.title,
+      link: userInput.url,
+    });
+    cardsList.addItem(newUserCard);
     newCardPopup.close();
     formValidators["new-card-form"].disableButton();
   },
@@ -55,39 +58,41 @@ addCardButton.addEventListener("click", () => {
   newCardPopup.open();
 });
 
+// Initialize an instance
 newCardPopup.setEventListeners();
 
 // UserInfo popup
-const userPopup = new UserInfo(
-  {
-    nameSelector: ".profile__title",
-    descriptionSelector: ".profile__subtitle",
+// Comment to the reviewer - I changed here the logics to use
+// the PopupWithFormClass for Profile Data change
+// and removed the extension of the popup class to the UserInfo class
+
+const userPopupForm = new PopupWithForm({
+  popupSelector: "#profileChange",
+  handleFormSubmit: (userInput) => {
+    const newUserInput = userInput;
+    userInfo.setUserInfo({
+      name: newUserInput.name,
+      description: newUserInput.description,
+    });
+    userPopupForm.close();
   },
-  "#profileChange"
-);
+});
+
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  descriptionSelector: ".profile__subtitle",
+});
 
 profileButtonEdit.addEventListener("click", () => {
   formValidators["profile-form"].resetValidation();
-  userPopup.open();
-  const userData = userPopup.getUserInfo();
-  profileModalInputName.value = userData.name;
-  profileModalInputSubtitle.value = userData.description;
+  userPopupForm.open();
+  const currentUserData = userInfo.getUserInfo();
+  profileModalInputName.value = currentUserData.name;
+  profileModalInputSubtitle.value = currentUserData.description;
 });
 
-userPopup.setEventListeners();
-
-// Submitting the new profile data
-profileModalForm.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-
-  const newUserData = {
-    name: profileModalInputName.value,
-    description: profileModalInputSubtitle.value,
-  };
-
-  userPopup.setUserInfo(newUserData);
-  userPopup.close();
-});
+// Initialize an instance
+userPopupForm.setEventListeners();
 
 // Universal handler for forms validation
 const formValidators = {};
@@ -103,3 +108,26 @@ const enableValidation = (config) => {
 };
 
 enableValidation(config);
+
+// profileButtonEdit.addEventListener("click", () => {
+//   formValidators["profile-form"].resetValidation();
+//   userPopup.open();
+//   const userData = userPopup.getUserInfo();
+//   profileModalInputName.value = userData.name;
+//   profileModalInputSubtitle.value = userData.description;
+// });
+
+// userPopup.setEventListeners();
+
+// // Submitting the new profile data
+// profileModalForm.addEventListener("submit", (evt) => {
+//   evt.preventDefault();
+
+//   const newUserData = {
+//     name: profileModalInputName.value,
+//     description: profileModalInputSubtitle.value,
+//   };
+
+//   userPopup.setUserInfo(newUserData);
+//   userPopup.close();
+// });
