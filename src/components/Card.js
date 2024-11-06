@@ -1,4 +1,6 @@
-export class Card {
+import confirmDeletePopup from ".//ConfDeletePopup";
+
+class Card {
   constructor({ name, link }, cardSelector, handleImageClick) {
     this._name = name;
     this._link = link;
@@ -48,6 +50,9 @@ export class Card {
 
   //   handlers for like and delete buttons
   _deleteButtonHandler() {
+    // const confirmPopup = new confirmDeletePopup("cardDelete");
+    // confirmPopup.open();
+    // confirmPopup.deleteCard();
     this._cardElement.remove();
     this._cardElement = null;
   }

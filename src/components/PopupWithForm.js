@@ -18,22 +18,13 @@ class PopupWithForm extends Popup {
     }, {});
     return userInput;
   }
-  // Comment to the reviewer.
-  // I did not understand the logics of making a method. Could you please explain it?
 
-  // getForm() {
-  // return this._popupForm
-  // }
-  // Also, I did not understand your comment about setting input values using a method.
-  // I get them using getInputValues and then they are passed to the SEL method on line 39
-  // and on 40 it is executed (with the help of callback in index.js)
-  //
-  // //  setInputValues(data) {
-  //   this._inputList.forEach((input) => {
-  //     // Here you insert the `value` by the `name` of the input
-  //     input.value = data[input.name];
-  //   });
-  // }
+  setInputValues(data) {
+    this._inputList.forEach((input) => {
+      // Here you insert the `value` by the `name` of the input
+      data[input.name] = input.value;
+    });
+  }
 
   setEventListeners() {
     this._popupForm.addEventListener("submit", (evt) => {
@@ -52,12 +43,3 @@ class PopupWithForm extends Popup {
 }
 
 export default PopupWithForm;
-
-// _getInputValues() {
-//   const userInput = {};
-//   this._inputList = Array.from(
-//     this._popupForm.querySelectorAll(".popup__input")
-//   );
-//   this._inputList.forEach((input) => (userInput[input.name] = input.value));
-//   return userInput;
-// }

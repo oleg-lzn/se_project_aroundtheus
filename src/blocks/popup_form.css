@@ -8,6 +8,10 @@
   width: 360px;
 }
 
+#confirm-delete-form.popup__form {
+  margin: 18px 0 0;
+}
+
 .popup__form-group {
   position: relative;
 }

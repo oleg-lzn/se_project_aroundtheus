@@ -1,4 +1,6 @@
 export const initialCards = [
+  // api.getInitialCards().then((data) => Array.from(data));
+
   {
     name: "Yosemite Valley",
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/yosemite.jpg",
@@ -57,6 +59,7 @@ export const profileModalInputName = profileModal.querySelector("[name=name]");
 export const profileModalInputSubtitle =
   profileModal.querySelector("[name=description]");
 export const cardsList = document.querySelector(".cards__list");
+export const profileAvatar = document.querySelector(".profile__avatar");
 
 // Variables for the Add Place Modal
 export const modalAddCard = document.getElementById("addElement");
