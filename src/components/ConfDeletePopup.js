@@ -5,6 +5,7 @@ class confirmDeletePopup extends Popup {
     super(popupSelector);
     this._popupForm = this.popupElement.querySelector(".popup__form");
     this._handleFormSubmit = handleFormSubmit;
+    this._setEventListeners();
   }
 
   setCardElement(cardElement, cardId) {
@@ -12,11 +13,15 @@ class confirmDeletePopup extends Popup {
     this._cardId = cardId; // did not understand the id and element attribution logics here
   }
 
-  setEventListeners() {
+  _setEventListeners() {
     this._popupForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._handleFormSubmit(this._cardElement, this._cardId); // need to get the card element here
-      // did not understand the id logics here
+      if (
+        this._handleFormSubmit &&
+        typeof this._handleFormSubmit === "function"
+      ) {
+        this._handleFormSubmit();
+      }
     });
     super.setEventListeners();
   }

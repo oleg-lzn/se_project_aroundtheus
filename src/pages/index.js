@@ -7,9 +7,6 @@ import {
   // initialCards,
   addCardButton,
   profileButtonEdit,
-  profileModalInputName,
-  profileModalInputSubtitle,
-  profileModalForm,
 } from "../utils/constants.js";
 import { config } from "../utils/constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -30,8 +27,36 @@ export const api = new Api({
 const imagePopup = new PopupWithImage("#imageOpen");
 
 function createCard(item) {
-  const cardElement = new Card(item, "#card-template", () =>
-    imagePopup.open(item)
+  const cardElement = new Card(
+    item,
+    "#card-template",
+    () => imagePopup.open(item),
+    (isLiked) => {
+      if (isLiked) {
+        api.dislikeCard(item._id).then((res) => {
+          console.log(res);
+          cardElement.updateLikeStatus(res.isLiked);
+        });
+      } else {
+        api.likeCard(item._id).then((res) => {
+          console.log(res);
+          cardElement.updateLikeStatus(res.isLiked);
+        });
+      }
+    },
+    (cardId) => {
+      api
+        .deleteCard(cardId)
+        .then(() => {
+          console.log(cardId);
+          cardElement.removeCard();
+          // cardElement = null;
+          confirmPopup.close();
+        })
+        .catch((err) => console.error("Error deleting the card", err));
+    }
+    // ???? получить ответ с сервера о статусе лайка и поменять его
+    // тут колбэк должен отправлять запрос с лайком на сервер при нажатии на лайк
   );
   return cardElement.getView();
 }
@@ -131,20 +156,9 @@ const fetchedCards = api.getInitialCards().then((data) => {
 // // Card delete confirmation popup
 const confirmPopup = new confirmDeletePopup({
   popupSelector: "#cardDelete",
-  handleFormSubmit: (cardElement, cardID) => {
-    api
-      .deleteCard(cardID)
-      .then(() => {
-        cardElement.remove();
-        cardElement = null;
-        confirmPopup.close();
-      })
-      .catch((err) => console.error("Error deleting the card", err));
-    // logics for sending the api request with the delete method
-  },
 });
 
 // // Initialize an instance
-confirmPopup.setEventListeners();
+// confirmPopup.setEventListeners();
 
 export default confirmPopup;
