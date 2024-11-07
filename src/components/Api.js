@@ -1,13 +1,15 @@
 class Api {
   constructor(options) {
-    // constructor body
+    this._baseURL = "https://around-api.en.tripleten-services.com/v1";
+    this._headers = {
+      authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
+      "Content-Type": "application/json",
+    };
   }
 
   getUserData() {
-    return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
-      headers: {
-        authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-      },
+    return fetch(`${this._baseURL}/users/me`, {
+      headers: this._headers,
     })
       .then((res) => {
         if (res.ok) {
@@ -18,12 +20,9 @@ class Api {
   }
 
   editProfileData(userInput) {
-    return fetch("https://around-api.en.tripleten-services.com/v1/users/me", {
+    return fetch(`${this._baseURL}/users/me`, {
       method: "PATCH",
-      headers: {
-        authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-        "Content-Type": "application/json",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: userInput.name,
         about: userInput.description,
@@ -36,10 +35,8 @@ class Api {
   }
 
   getInitialCards() {
-    return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
-      headers: {
-        authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-      },
+    return fetch(`${this._baseURL}/cards`, {
+      headers: this._headers,
     })
       .then((res) => {
         if (res.ok) {
@@ -50,12 +47,9 @@ class Api {
   }
 
   addNewCard(newCard) {
-    return fetch("https://around-api.en.tripleten-services.com/v1/cards", {
+    return fetch(`${this._baseURL}/cards`, {
       method: "POST",
-      headers: {
-        authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-        "Content-Type": "application/json; charset=UTF-8",
-      },
+      headers: this._headers,
       body: JSON.stringify({
         name: newCard.title,
         link: newCard.url,
@@ -68,23 +62,54 @@ class Api {
       })
       .catch((err) => console.error(err));
   }
+
+  deleteCard(cardId) {
+    return fetch(`${this._baseURL}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  likeCard(cardId) {
+    return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
+      method: "PUT",
+      headers: this._headers,
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => console.error(err));
+  }
+
+  dislikeCard(cardId) {
+    return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
+      method: "DELETE",
+      headers: this._headers,
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => console.error(err));
+  }
 }
 
-const api = new Api({
-  baseUrl: "https://around-api.en.tripleten-services.com/v1",
-  headers: {
-    authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-    "Content-Type": "application/json",
-  },
-});
-
-// api.getUserData();
-// api.getInitialCards();
-api.addNewCard({
-  name: "Lago di Braies",
-  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/around-project/lago.jpg",
-});
-// api.editProfileData();
+// const api = new Api({
+//   baseUrl: "https://around-api.en.tripleten-services.com/v1",
+//   headers: {
+//     authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
+//     "Content-Type": "application/json",
+//   },
+// });
 
 export default Api;
 

@@ -1,9 +1,11 @@
-import confirmDeletePopup from ".//ConfDeletePopup";
+import confirmPopup from "../pages/index.js";
+import Api from "../pages/index.js";
 
 class Card {
-  constructor({ name, link }, cardSelector, handleImageClick) {
+  constructor({ name, link, _id }, cardSelector, handleImageClick) {
     this._name = name;
     this._link = link;
+    this._id = _id; // понять, какая тут логика. До присвоения id карточке сам не дошел, тупой.
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
   }
@@ -26,7 +28,9 @@ class Card {
 
     //delete button
     this._trashButton.addEventListener("click", () => {
-      this._deleteButtonHandler();
+      confirmPopup.open();
+      confirmPopup.setCardElement(this._cardElement, this._id);
+      // logics for getting the card ID should be here
     });
 
     //Image handler
@@ -46,15 +50,6 @@ class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._setEventListeners();
-  }
-
-  //   handlers for like and delete buttons
-  _deleteButtonHandler() {
-    // const confirmPopup = new confirmDeletePopup("cardDelete");
-    // confirmPopup.open();
-    // confirmPopup.deleteCard();
-    this._cardElement.remove();
-    this._cardElement = null;
   }
 
   _handleLikeButton() {
