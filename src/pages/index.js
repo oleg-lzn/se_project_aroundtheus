@@ -4,8 +4,8 @@ import FormValidator from "../components/FormValidator.js";
 import "../pages/index.css";
 import Section from "../components/Section.js";
 import {
-  // initialCards,
   addCardButton,
+  profileAvatar,
   profileButtonEdit,
 } from "../utils/constants.js";
 import { config } from "../utils/constants.js";
@@ -13,7 +13,8 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
-import confirmDeletePopup from "../components/ConfDeletePopup.js";
+import ConfirmDeletePopup from "../components/ConfDeletePopup.js";
+import ProfilePicPopup from "../components/ProfilePicPopup.js";
 
 export const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
@@ -34,12 +35,10 @@ function createCard(item) {
     (isLiked) => {
       if (isLiked) {
         api.dislikeCard(item._id).then((res) => {
-          console.log(res);
           cardElement.updateLikeStatus(res.isLiked);
         });
       } else {
         api.likeCard(item._id).then((res) => {
-          console.log(res);
           cardElement.updateLikeStatus(res.isLiked);
         });
       }
@@ -50,13 +49,9 @@ function createCard(item) {
         .then(() => {
           console.log(cardId);
           cardElement.removeCard();
-          // cardElement = null;
-          confirmPopup.close();
         })
         .catch((err) => console.error("Error deleting the card", err));
     }
-    // ???? получить ответ с сервера о статусе лайка и поменять его
-    // тут колбэк должен отправлять запрос с лайком на сервер при нажатии на лайк
   );
   return cardElement.getView();
 }
@@ -72,7 +67,7 @@ const fetchedCards = api.getInitialCards().then((data) => {
     },
     config.cardsListSelector
   );
-  // Initialize an instance
+
   cardsList.renderItems();
   imagePopup.setEventListeners();
 
@@ -87,7 +82,6 @@ const fetchedCards = api.getInitialCards().then((data) => {
           link: data.link,
         });
         cardsList.addItem(newUserCard);
-        newCardPopup.close();
         formValidators["new-card-form"].disableButton();
       });
     },
@@ -98,10 +92,7 @@ const fetchedCards = api.getInitialCards().then((data) => {
     newCardPopup.open();
   });
 
-  // Initialize an instance
-  newCardPopup.setEventListeners();
-
-  // UserInfo popup
+  // UserInfo Popup
   const userPopupForm = new PopupWithForm({
     popupSelector: "#profileChange",
     handleFormSubmit: (userInput) => {
@@ -114,13 +105,31 @@ const fetchedCards = api.getInitialCards().then((data) => {
           });
         })
         .catch((err) => console.error(err));
-      userPopupForm.close();
     },
   });
 
+  // User Info and Avatar Change
   const userInfo = new UserInfo({
     nameSelector: ".profile__title",
     descriptionSelector: ".profile__subtitle",
+  });
+
+  //Profile Avatar Change
+  const profilePicPopup = new ProfilePicPopup({
+    popupSelector: "#profilePicChange",
+    avatarSelector: ".profile__avatar",
+    handleFormSubmit: (inputValues) => {
+      api
+        .avatarUpdate(inputValues)
+        .then((data) => {
+          profilePicPopup.changeProfilePic(data);
+        })
+        .catch((err) => console.error(err));
+    },
+  });
+
+  profileAvatar.addEventListener("click", () => {
+    profilePicPopup.open();
   });
 
   profileButtonEdit.addEventListener("click", () => {
@@ -133,9 +142,6 @@ const fetchedCards = api.getInitialCards().then((data) => {
       })
       .catch((err) => console.error(err));
   });
-
-  // Initialize an instance
-  userPopupForm.setEventListeners();
 
   // Universal handler for forms validation
   const formValidators = {};
@@ -154,11 +160,8 @@ const fetchedCards = api.getInitialCards().then((data) => {
 });
 
 // // Card delete confirmation popup
-const confirmPopup = new confirmDeletePopup({
+const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
 });
-
-// // Initialize an instance
-// confirmPopup.setEventListeners();
 
 export default confirmPopup;

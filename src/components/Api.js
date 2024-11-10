@@ -101,15 +101,23 @@ class Api {
       })
       .catch((err) => console.error(err));
   }
-}
 
-// const api = new Api({
-//   baseUrl: "https://around-api.en.tripleten-services.com/v1",
-//   headers: {
-//     authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-//     "Content-Type": "application/json",
-//   },
-// });
+  avatarUpdate(inputValues) {
+    return fetch(`${this._baseURL}/users/me/avatar`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: inputValues.url, // проверить, как в запросе реально
+      }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else return Promise.reject(`Error: ${res.status}`);
+      })
+      .catch((err) => console.error(err));
+  }
+}
 
 export default Api;
 

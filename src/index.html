@@ -36,6 +36,8 @@
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
+
+        <!-- Profile Change Popup -->
         <div class="popup" id="profileChange">
           <div class="popup__container" id="popup__container">
             <button class="popup__close" type="button"></button>
@@ -78,6 +80,8 @@
             </form>
           </div>
         </div>
+
+        <!-- Add Card Popup -->
         <div class="popup" id="addElement">
           <div class="popup__container" id="popup__container">
             <button class="popup__close" type="button"></button>
@@ -124,6 +128,7 @@
       </footer>
     </div>
 
+    <!-- Image Open Popup -->
     <div class="popup" id="imageOpen">
       <div class="popup__container-image" id="popup__container">
         <button class="popup__close" type="button"></button>
@@ -132,6 +137,7 @@
       </div>
     </div>
 
+    <!-- Card Delete Popup -->
     <div class="popup" id="cardDelete">
       <div class="popup__container" id="popup__container">
         <button class="popup__close" type="button"></button>
@@ -144,6 +150,31 @@
       </div>
     </div>
 
+    <!-- Profile Pic Change Popup -->
+    <div class="popup" id="profilePicChange">
+      <div class="popup__container" id="popup__container">
+        <button class="popup__close" type="button"></button>
+        <p class="popup__title">Insert new picture link</p>
+        <form class="popup__form" id="profile-pic-change" novalidate>
+          <div class="popup__form-group">
+            <input
+              class="popup__input"
+              name="url"
+              type="url"
+              placeholder="Profile Image URL"
+              required
+              id="url-input"
+            />
+            <span class="popup__error" id="url-input-error"></span>
+          </div>
+          <button class="popup__button" type="submit" id="confirm_button">
+            Save new Picture
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Card Template -->
     <template id="card-template">
       <li class="card">
         <img class="card__image" alt="card__alt_text" />

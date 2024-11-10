@@ -8,8 +8,10 @@ class PopupWithForm extends Popup {
     this._inputList = Array.from(
       this._popupForm.querySelectorAll(".popup__input")
     );
+    this._setEventListeners();
   }
 
+  // User Input values getter and returning an object with them
   _getInputValues() {
     const userInput = this._inputList.reduce((acc, input) => {
       const { name, value } = input;
@@ -19,25 +21,27 @@ class PopupWithForm extends Popup {
     return userInput;
   }
 
+  // User input values setter
   setInputValues(data) {
     this._inputList.forEach((input) => {
-      // Here you insert the `value` by the `name` of the input
       data[input.name] = input.value;
     });
   }
 
-  setEventListeners() {
+  // Event Listeners setter and submit logics
+  _setEventListeners() {
     this._popupForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
       const inputValues = this._getInputValues();
       this._handleFormSubmit(inputValues);
       this._popupForm.reset();
+      this.close();
     });
     super.setEventListeners();
   }
 
+  // Popup Closer
   close() {
-    // Comment to the reviewer - moved the form reset to the SEL method after a submission.
     super.close();
   }
 }

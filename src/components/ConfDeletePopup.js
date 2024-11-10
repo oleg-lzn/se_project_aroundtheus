@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 
-class confirmDeletePopup extends Popup {
+class ConfirmDeletePopup extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
     this._popupForm = this.popupElement.querySelector(".popup__form");
@@ -8,11 +8,7 @@ class confirmDeletePopup extends Popup {
     this._setEventListeners();
   }
 
-  setCardElement(cardElement, cardId) {
-    this._cardElement = cardElement;
-    this._cardId = cardId; // did not understand the id and element attribution logics here
-  }
-
+  // Event Listeners setter and submit logics
   _setEventListeners() {
     this._popupForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
@@ -21,6 +17,7 @@ class confirmDeletePopup extends Popup {
         typeof this._handleFormSubmit === "function"
       ) {
         this._handleFormSubmit();
+        this.close();
       }
     });
     super.setEventListeners();
@@ -31,4 +28,4 @@ class confirmDeletePopup extends Popup {
   }
 }
 
-export default confirmDeletePopup;
+export default ConfirmDeletePopup;

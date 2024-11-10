@@ -1,5 +1,4 @@
 import confirmPopup from "../pages/index.js";
-import Api from "../pages/index.js";
 
 class Card {
   constructor(
@@ -12,42 +11,33 @@ class Card {
     this._name = name;
     this._link = link;
     this._isLiked = isLiked;
-    this._id = _id; // понять, какая тут логика. До присвоения id карточке сам не дошел, тупой.
+    this._id = _id;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleLikeToggle = handleLikeToggle;
     this._handleCardDelete = handleCardDelete;
   }
 
+  // Card template creation and copying
   _getCardTemplate() {
-    // Here goes the method for card template creation and copying
     const cardTemplate = document
       .querySelector(this._cardSelector)
       .content.firstElementChild.cloneNode(true);
     return cardTemplate;
   }
 
+  // Listeners creation function
   _setEventListeners() {
-    //Here goes the part of code, responsible for the event listeners
-
-    //like button
-    // this._likeButton.addEventListener("click", () => {
-    //   this._handleLikeButton();
-    // });
-
     this._likeButton.addEventListener("click", () => {
       this._handleLikeToggle(this._isLiked); // должен передавать в index.js статус isLiked и id,
-      // чтобы отправить запрос на сервер в колбэке
     });
 
-    //delete button
+    //Delete button
     this._trashButton.addEventListener("click", () => {
       confirmPopup.open();
-      // confirmPopup.setCardElement(this._cardElement, this._id);
       confirmPopup._handleFormSubmit = () => {
         this._handleCardDelete(this._id);
       };
-      // logics for getting the card ID should be here
     });
 
     //Image handler
@@ -56,6 +46,7 @@ class Card {
     });
   }
 
+  // Like Status toggler
   updateLikeStatus(isLiked) {
     this._isLiked = isLiked;
     isLiked
@@ -63,8 +54,8 @@ class Card {
       : this._likeButton.classList.remove("card__like-button_active");
   }
 
+  // Card creation and listeners setting function
   _renderCard() {
-    // Here goes the method for card rendering and filling it with data
     this._cardElement = this._getCardTemplate();
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._cardImage = this._cardElement.querySelector(".card__image");
@@ -76,14 +67,17 @@ class Card {
     this._setEventListeners();
   }
 
+  // Card Removal
   removeCard() {
     this._cardElement.remove();
   }
 
-  // _handleLikeButton() {
-  //   this._likeButton.classList.toggle("card__like-button_active");
-  // }
+  // Opener
+  open() {
+    this.open();
+  }
 
+  // Card renderer
   getView() {
     this._renderCard();
     return this._cardElement;
