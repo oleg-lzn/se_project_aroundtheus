@@ -10,11 +10,35 @@
   border-radius: 50%;
   object-fit: cover;
   background-position: center;
+  position: relative;
   margin-right: 30px;
 }
 
-.profile__avatar:hover {
+.profile__container {
+  position: relative;
+}
+
+.profile__container:hover .profile__avatar_edit_button {
+  opacity: 1;
+}
+
+.profile__container:hover .profile__avatar {
   animation: fadeOpacity 0.5s ease-in-out forwards;
+}
+
+.profile__avatar_edit_button {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0;
+  width: 26px;
+  height: 26px;
+  position: absolute;
+  inset: 47px;
+  color: #fff;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.profile__avatar:hover {
   cursor: pointer;
 }
 

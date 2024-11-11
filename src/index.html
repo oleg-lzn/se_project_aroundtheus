@@ -20,12 +20,20 @@
         />
       </header>
       <main class="content">
+        <div class="spinner"><i></i></div>
         <section class="profile page__section">
-          <img
-            class="profile__avatar"
-            src="<%=require('./images/jacques-cousteau.svg')%>"
-            alt="Jacques Cousteau image"
-          />
+          <div class="profile__container">
+            <img
+              class="profile__avatar"
+              src="<%=require('./images/jacques-cousteau.svg')%>"
+              alt="Jacques Cousteau image"
+            />
+            <img
+              class="profile__avatar_edit_button"
+              src="<%=require('./images/profile_avatar_edit_sign.svg')%>"
+              alt="Profile Avatar Edit Button"
+            />
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -154,7 +162,7 @@
     <div class="popup" id="profilePicChange">
       <div class="popup__container" id="popup__container">
         <button class="popup__close" type="button"></button>
-        <p class="popup__title">Insert new picture link</p>
+        <p class="popup__title">Change profile picture</p>
         <form class="popup__form" id="profile-pic-change" novalidate>
           <div class="popup__form-group">
             <input
@@ -168,7 +176,7 @@
             <span class="popup__error" id="url-input-error"></span>
           </div>
           <button class="popup__button" type="submit" id="confirm_button">
-            Save new Picture
+            Save
           </button>
         </form>
       </div>

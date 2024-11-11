@@ -7,6 +7,7 @@ import {
   addCardButton,
   profileAvatar,
   profileButtonEdit,
+  spinner,
 } from "../utils/constants.js";
 import { config } from "../utils/constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -163,5 +164,17 @@ const fetchedCards = api.getInitialCards().then((data) => {
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
 });
+
+// create an array of promises
+const promises = [];
+
+// pass the array of promises to the Promise.all() method
+Promise.all(promises)
+  .then((results) => {
+    console.log(results); // ["Picture", "Text"]
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 export default confirmPopup;

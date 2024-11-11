@@ -79,4 +79,5 @@ export const addCardButton = profile.querySelector(".profile__add-button");
 export const modalAddCardForm = document.forms["new-card-form"];
 export const profileModalForm = document.forms["profile-form"];
 
-// Avatar
+// Spinner
+export const spinner = document.querySelector(".spinner");
