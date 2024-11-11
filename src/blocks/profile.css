@@ -14,15 +14,15 @@
   margin-right: 30px;
 }
 
-.profile__container {
+.profile__avatar_container {
   position: relative;
 }
 
-.profile__container:hover .profile__avatar_edit_button {
+.profile__avatar_container:hover .profile__avatar_edit_button {
   opacity: 1;
 }
 
-.profile__container:hover .profile__avatar {
+.profile__avatar_container:hover .profile__avatar {
   animation: fadeOpacity 0.5s ease-in-out forwards;
 }
 

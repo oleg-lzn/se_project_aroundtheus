@@ -1,18 +1,13 @@
 import Popup from "./Popup";
-import { profileAvatar } from "../utils/constants";
 
 class ProfilePicPopup extends Popup {
-  constructor({
-    popupSelector,
-    avatarSelector,
-    handleFormSubmit,
-    // handleLoadError,
-  }) {
+  constructor({ popupSelector, avatarSelector, handleFormSubmit }) {
     super(popupSelector);
     this._popupForm = this.popupElement.querySelector(".popup__form");
+    this._submitButton = this._popupForm.querySelector(".popup__button");
+    this._defaultButtonText = this._submitButton.textContent;
     this._avatarElement = document.querySelector(avatarSelector);
     this._handleFormSubmit = handleFormSubmit;
-    // this._handleLoadError = handleLoadError;
     this._inputList = Array.from(
       this._popupForm.querySelectorAll(".popup__input")
     );
@@ -26,6 +21,14 @@ class ProfilePicPopup extends Popup {
       return acc;
     }, {});
     return userInput;
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = "Saving...";
+    } else {
+      this._submitButton.textContent = this._defaultButtonText;
+    }
   }
 
   _setEventListeners() {

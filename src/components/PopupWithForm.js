@@ -4,6 +4,8 @@ class PopupWithForm extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
     this._popupForm = this.popupElement.querySelector(".popup__form");
+    this._submitButton = this._popupForm.querySelector(".popup__button");
+    this._defaultButtonText = this._submitButton.textContent;
     this._handleFormSubmit = handleFormSubmit;
     this._inputList = Array.from(
       this._popupForm.querySelectorAll(".popup__input")
@@ -19,6 +21,14 @@ class PopupWithForm extends Popup {
       return acc;
     }, {});
     return userInput;
+  }
+
+  renderLoading(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = "Saving...";
+    } else {
+      this._submitButton.textContent = this._defaultButtonText;
+    }
   }
 
   // User input values setter

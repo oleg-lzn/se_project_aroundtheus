@@ -1,21 +1,20 @@
 class Api {
-  constructor(options) {
-    this._baseURL = "https://around-api.en.tripleten-services.com/v1";
-    this._headers = {
-      authorization: "fbd43f39-bc6f-4ff1-b85c-3a8e63a0b02d",
-      "Content-Type": "application/json",
-    };
+  constructor({ baseUrl, headers }) {
+    this._baseURL = baseUrl;
+    this._headers = headers;
+  }
+
+  _checkTheApiResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } else return Promise.reject(`Error: ${res.status}`);
   }
 
   getUserData() {
     return fetch(`${this._baseURL}/users/me`, {
       headers: this._headers,
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -27,22 +26,16 @@ class Api {
         name: userInput.name,
         about: userInput.description,
       }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else return Promise.reject(`Error: ${res.status}`);
-    });
+    })
+      .then((res) => this._checkTheApiResponse(res))
+      .catch((err) => console.error(err));
   }
 
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       headers: this._headers,
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -53,13 +46,11 @@ class Api {
       body: JSON.stringify({
         name: newCard.title,
         link: newCard.url,
+        isLiked: newCard.isLiked,
+        _id: newCard._id,
       }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -68,11 +59,7 @@ class Api {
       method: "DELETE",
       headers: this._headers,
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -81,11 +68,7 @@ class Api {
       method: "PUT",
       headers: this._headers,
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -94,11 +77,7 @@ class Api {
       method: "DELETE",
       headers: this._headers,
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
 
@@ -110,14 +89,28 @@ class Api {
         avatar: inputValues.url, // проверить, как в запросе реально
       }),
     })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else return Promise.reject(`Error: ${res.status}`);
-      })
+      .then((res) => this._checkTheApiResponse(res))
       .catch((err) => console.error(err));
   }
+
+  loadPageContent() {
+    const promises = [this.getInitialCards(), this.getUserData()];
+    return Promise.all(promises);
+  }
 }
+
+// const promises = [getuserData(), getInitialCards()];
+
+// // pass the array of promises to the Promise.all() method
+// Promise.all(promises)
+//   .then((results) => {
+//     console.log(results); // ["Picture", "Text"]
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//   });
+
+// // create an array of promises
 
 export default Api;
 

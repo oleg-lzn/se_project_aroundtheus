@@ -5,9 +5,8 @@ import "../pages/index.css";
 import Section from "../components/Section.js";
 import {
   addCardButton,
-  profileAvatar,
+  profileAvatarContainer,
   profileButtonEdit,
-  spinner,
 } from "../utils/constants.js";
 import { config } from "../utils/constants.js";
 import PopupWithImage from "../components/PopupWithImage.js";
@@ -17,6 +16,7 @@ import Api from "../components/Api.js";
 import ConfirmDeletePopup from "../components/ConfDeletePopup.js";
 import ProfilePicPopup from "../components/ProfilePicPopup.js";
 
+// Api Initialization
 export const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
@@ -25,9 +25,64 @@ export const api = new Api({
   },
 });
 
-// Create the instances of the classes
-const imagePopup = new PopupWithImage("#imageOpen");
+// CARDS AND PAGE RENDERING
+// Getting the user data and the initial cards on the initial page loading
 
+let cardsList; // правильно ли так??? Было раньше как внизу, теперь CardsList объявлена так, чтобы использоваться в попапе
+
+// api
+//   .loadPageContent()
+//   .then(([initialCards, userData]) => {
+//     // здесь возвращается 2 промиса, и нужно каждый обработать
+//     // Рендеринг карточек снаружи api ?????
+//     const cardsList = new Section(
+//       {
+//         items: initialCards,
+//         renderer: (item) => {
+//           const newCard = createCard(item);
+//           cardsList.addItem(newCard);
+//         },
+//       },
+//       config.cardsListSelector
+//     );
+
+//     userInfo.setUserInfo({
+//       // разобраться детально, почему так
+//       name: userData.name,
+//       description: userData.about,
+//       avatar: userData.avatar,
+//     });
+//     cardsList.renderItems();
+//   })
+//   .catch((err) => console.log(err));
+
+api
+  .loadPageContent()
+  .then(([initialCards, userData]) => {
+    // Устанавливаем информацию о пользователе
+    userInfo.setUserInfo({
+      name: userData.name,
+      description: userData.about,
+      avatar: userData.avatar,
+    });
+
+    // Инициализируем экземпляр Section и сохраняем его в глобальной переменной cardsList
+    cardsList = new Section(
+      {
+        items: initialCards,
+        renderer: (item) => {
+          const newCard = createCard(item);
+          cardsList.addItem(newCard);
+        },
+      },
+      config.cardsListSelector
+    );
+
+    cardsList.renderItems();
+  })
+  .catch((err) => console.error(err));
+
+// Card creation function
 function createCard(item) {
   const cardElement = new Card(
     item,
@@ -48,7 +103,6 @@ function createCard(item) {
       api
         .deleteCard(cardId)
         .then(() => {
-          console.log(cardId);
           cardElement.removeCard();
         })
         .catch((err) => console.error("Error deleting the card", err));
@@ -57,124 +111,146 @@ function createCard(item) {
   return cardElement.getView();
 }
 
-const fetchedCards = api.getInitialCards().then((data) => {
-  const cardsList = new Section(
-    {
-      items: data,
-      renderer: (item) => {
-        const newCard = createCard(item);
-        cardsList.addItem(newCard);
-      },
-    },
-    config.cardsListSelector
-  );
+// POPUPS
 
-  cardsList.renderItems();
-  imagePopup.setEventListeners();
+// Creating a card image popup
+const imagePopup = new PopupWithImage("#imageOpen");
 
-  // Creating a popup with add card form
-  const newCardPopup = new PopupWithForm({
-    popupSelector: "#addElement",
-    handleFormSubmit: (userInput) => {
-      api.addNewCard(userInput).then((data) => {
-        console.log(data);
-        const newUserCard = createCard({
-          name: data.name,
-          link: data.link,
-        });
-        cardsList.addItem(newUserCard);
-        formValidators["new-card-form"].disableButton();
-      });
-    },
-  });
-
-  // Add new card button handler
-  addCardButton.addEventListener("click", () => {
-    newCardPopup.open();
-  });
-
-  // UserInfo Popup
-  const userPopupForm = new PopupWithForm({
-    popupSelector: "#profileChange",
-    handleFormSubmit: (userInput) => {
-      api
-        .editProfileData(userInput)
-        .then((data) => {
-          userInfo.setUserInfo({
-            name: data.name,
-            description: data.about,
-          });
-        })
-        .catch((err) => console.error(err));
-    },
-  });
-
-  // User Info and Avatar Change
-  const userInfo = new UserInfo({
-    nameSelector: ".profile__title",
-    descriptionSelector: ".profile__subtitle",
-  });
-
-  //Profile Avatar Change
-  const profilePicPopup = new ProfilePicPopup({
-    popupSelector: "#profilePicChange",
-    avatarSelector: ".profile__avatar",
-    handleFormSubmit: (inputValues) => {
-      api
-        .avatarUpdate(inputValues)
-        .then((data) => {
-          profilePicPopup.changeProfilePic(data);
-        })
-        .catch((err) => console.error(err));
-    },
-  });
-
-  profileAvatar.addEventListener("click", () => {
-    profilePicPopup.open();
-  });
-
-  profileButtonEdit.addEventListener("click", () => {
-    formValidators["profile-form"].resetValidation();
-    userPopupForm.open();
-    api
-      .getUserData()
-      .then((data) => {
-        userPopupForm.setInputValues(data);
-      })
-      .catch((err) => console.error(err));
-  });
-
-  // Universal handler for forms validation
-  const formValidators = {};
-
-  const enableValidation = (config) => {
-    const formList = Array.from(document.querySelectorAll(config.formSelector));
-    formList.forEach((form) => {
-      const validator = new FormValidator(config, form);
-      const formId = form.getAttribute("id");
-      formValidators[formId] = validator;
-      validator.enableValidation();
-    });
-  };
-
-  enableValidation(config);
-});
-
-// // Card delete confirmation popup
+// Card delete confirmation popup
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
 });
 
-// create an array of promises
-const promises = [];
+// Creating a popup with add card form
+const newCardPopup = new PopupWithForm({
+  popupSelector: "#addElement",
+  handleFormSubmit: (userInput) => {
+    newCardPopup.renderLoading(true);
+    api
+      .addNewCard(userInput)
+      .then((data) => {
+        const newUserCard = createCard({
+          name: data.name,
+          link: data.link,
+          _id: data._id, // Разобраться с передачей данных при создании карточки
+          isLiked: data.isLiked,
+        });
+        cardsList.addItem(newUserCard); // здесь контейнер в статусе undefined, потому что он не в глобальном скоупе
+        formValidators["new-card-form"].disableButton();
+      })
+      .catch((err) => console.error(err))
+      .finally(() => newCardPopup.renderLoading(false));
+  },
+});
 
-// pass the array of promises to the Promise.all() method
-Promise.all(promises)
-  .then((results) => {
-    console.log(results); // ["Picture", "Text"]
-  })
-  .catch((error) => {
-    console.log(error);
+// Add new card button handler
+addCardButton.addEventListener("click", () => {
+  newCardPopup.open();
+});
+
+// UserInfo Popup
+const userPopupForm = new PopupWithForm({
+  popupSelector: "#profileChange",
+  handleFormSubmit: (userInput) => {
+    userPopupForm.renderLoading(true);
+    api
+      .editProfileData(userInput)
+      .then((data) => {
+        userInfo.setUserInfo({
+          name: data.name,
+          description: data.about,
+        });
+      })
+      .catch((err) => console.error(err))
+      .finally(() => userPopupForm.renderLoading(false));
+  },
+});
+
+// PROFILE INFO CHANGES
+
+// User Info and Avatar Change
+const userInfo = new UserInfo({
+  nameSelector: ".profile__title",
+  descriptionSelector: ".profile__subtitle",
+  avatarSelector: ".profile__avatar",
+});
+
+//Profile Avatar Change
+const profilePicPopup = new ProfilePicPopup({
+  popupSelector: "#profilePicChange",
+  avatarSelector: ".profile__avatar",
+  handleFormSubmit: (inputValues) => {
+    profilePicPopup.renderLoading(true);
+    api
+      .avatarUpdate(inputValues)
+      .then((data) => {
+        profilePicPopup.changeProfilePic(data);
+        userInfo.setNewAvatar(data);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => profilePicPopup.renderLoading(false));
+  },
+});
+
+profileAvatarContainer.addEventListener("click", () => {
+  profilePicPopup.open();
+});
+
+profileButtonEdit.addEventListener("click", () => {
+  formValidators["profile-form"].resetValidation();
+  userPopupForm.open();
+  api
+    .getUserData()
+    .then((data) => {
+      userPopupForm.setInputValues(data);
+    })
+    .catch((err) => console.error(err));
+});
+
+//VALIDATION
+
+// Universal handler for forms validation
+const formValidators = {};
+
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  formList.forEach((form) => {
+    const validator = new FormValidator(config, form);
+    const formId = form.getAttribute("id");
+    formValidators[formId] = validator;
+    validator.enableValidation();
   });
+};
+
+enableValidation(config);
 
 export default confirmPopup;
+
+// const initialCards = api
+//   .getInitialCards()
+//   .then((data) => {
+//     const cardsList = new Section(
+//       {
+//         items: data,
+//         renderer: (item) => {
+//           const newCard = createCard(item);
+//           cardsList.addItem(newCard);
+//         },
+//       },
+//       config.cardsListSelector
+//     );
+//     cardsList.renderItems();
+//   })
+//   .catch((err) => console.log(err));
+
+// const userData = api
+//   .getUserData()
+//   .then((data) => {
+//     const currentUser = {
+//       name: data.name,
+//       description: data.about,
+//       avatar: data.avatar,
+//     };
+//     console.log(currentUser);
+//   })
+//   .catch((err) => console.error(err));

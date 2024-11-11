@@ -56,7 +56,9 @@ export const profileModalInputName = profileModal.querySelector("[name=name]");
 export const profileModalInputSubtitle =
   profileModal.querySelector("[name=description]");
 export const cardsList = document.querySelector(".cards__list");
-export const profileAvatar = document.querySelector(".profile__avatar");
+export const profileAvatarContainer = document.querySelector(
+  ".profile__avatar_container"
+);
 
 // Variables for the Add Place Modal
 export const modalAddCard = document.getElementById("addElement");
