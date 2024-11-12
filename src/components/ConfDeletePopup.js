@@ -4,7 +4,7 @@ class ConfirmDeletePopup extends Popup {
   constructor({ popupSelector, handleFormSubmit }) {
     super(popupSelector);
     this._popupForm = this.popupElement.querySelector(".popup__form");
-    this._handleFormSubmit = handleFormSubmit;
+    this.handleFormSubmit = handleFormSubmit;
     this._setEventListeners();
   }
 
@@ -13,18 +13,14 @@ class ConfirmDeletePopup extends Popup {
     this._popupForm.addEventListener("submit", (evt) => {
       evt.preventDefault();
       if (
-        this._handleFormSubmit &&
-        typeof this._handleFormSubmit === "function"
+        this.handleFormSubmit &&
+        typeof this.handleFormSubmit === "function"
       ) {
-        this._handleFormSubmit();
-        this.close();
+        // здесь должна подтягиваться информация о карточке, которая будет удалена
+        this.handleFormSubmit(); // сюда надо передавать информацию о карточке
       }
     });
     super.setEventListeners();
-  }
-
-  open() {
-    super.open();
   }
 }
 

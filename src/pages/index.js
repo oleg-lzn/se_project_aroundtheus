@@ -14,7 +14,6 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import ConfirmDeletePopup from "../components/ConfDeletePopup.js";
-import ProfilePicPopup from "../components/ProfilePicPopup.js";
 
 // Api Initialization
 export const api = new Api({
@@ -30,43 +29,15 @@ export const api = new Api({
 
 let cardsList; // правильно ли так??? Было раньше как внизу, теперь CardsList объявлена так, чтобы использоваться в попапе
 
-// api
-//   .loadPageContent()
-//   .then(([initialCards, userData]) => {
-//     // здесь возвращается 2 промиса, и нужно каждый обработать
-//     // Рендеринг карточек снаружи api ?????
-//     const cardsList = new Section(
-//       {
-//         items: initialCards,
-//         renderer: (item) => {
-//           const newCard = createCard(item);
-//           cardsList.addItem(newCard);
-//         },
-//       },
-//       config.cardsListSelector
-//     );
-
-//     userInfo.setUserInfo({
-//       // разобраться детально, почему так
-//       name: userData.name,
-//       description: userData.about,
-//       avatar: userData.avatar,
-//     });
-//     cardsList.renderItems();
-//   })
-//   .catch((err) => console.log(err));
-
 api
   .loadPageContent()
   .then(([initialCards, userData]) => {
-    // Устанавливаем информацию о пользователе
     userInfo.setUserInfo({
       name: userData.name,
       description: userData.about,
       avatar: userData.avatar,
     });
 
-    // Инициализируем экземпляр Section и сохраняем его в глобальной переменной cardsList
     cardsList = new Section(
       {
         items: initialCards,
@@ -87,23 +58,44 @@ function createCard(item) {
   const cardElement = new Card(
     item,
     "#card-template",
+    // image popup callback
     () => imagePopup.open(item),
+    // like status callback
+    (isLiked) => setLikeStatus(isLiked),
+    // like handler callback
     (isLiked) => {
       if (isLiked) {
-        api.dislikeCard(item._id).then((res) => {
-          cardElement.updateLikeStatus(res.isLiked);
-        });
+        api
+          .dislikeCard(item._id)
+          .then((res) => {
+            cardElement.updateLikeStatus(res.isLiked);
+            cardElement.setLikeStatus(res.isLiked);
+          })
+          .catch((err) => console.error(err));
       } else {
-        api.likeCard(item._id).then((res) => {
-          cardElement.updateLikeStatus(res.isLiked);
-        });
+        api
+          .likeCard(item._id)
+          .then((res) => {
+            cardElement.updateLikeStatus(res.isLiked);
+            cardElement.setLikeStatus();
+          })
+          .catch((err) => console.error(err));
       }
     },
+    // delete popup open handler
+    () => {
+      confirmPopup.open();
+    },
+    // вот этот кусок логики удаления самой карточки должен остаться здесь или быть перенесен в сам попап?
+
+    // delete popup submit handler
     (cardId) => {
+      confirmPopup.handleFormSubmit();
       api
         .deleteCard(cardId)
         .then(() => {
           cardElement.removeCard();
+          confirmPopup.close();
         })
         .catch((err) => console.error("Error deleting the card", err));
     }
@@ -119,6 +111,7 @@ const imagePopup = new PopupWithImage("#imageOpen");
 // Card delete confirmation popup
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
+  handleFormSubmit: (cardId, cardElement) => {}, // в колбэк надо передавать информацию о том, какая карточка будет удалена
 });
 
 // Creating a popup with add card form
@@ -137,6 +130,8 @@ const newCardPopup = new PopupWithForm({
         });
         cardsList.addItem(newUserCard); // здесь контейнер в статусе undefined, потому что он не в глобальном скоупе
         formValidators["new-card-form"].disableButton();
+        newCardPopup.getForm().reset();
+        newCardPopup.close();
       })
       .catch((err) => console.error(err))
       .finally(() => newCardPopup.renderLoading(false));
@@ -160,6 +155,7 @@ const userPopupForm = new PopupWithForm({
           name: data.name,
           description: data.about,
         });
+        userPopupForm.close();
       })
       .catch((err) => console.error(err))
       .finally(() => userPopupForm.renderLoading(false));
@@ -176,16 +172,16 @@ const userInfo = new UserInfo({
 });
 
 //Profile Avatar Change
-const profilePicPopup = new ProfilePicPopup({
+const profilePicPopup = new PopupWithForm({
   popupSelector: "#profilePicChange",
-  avatarSelector: ".profile__avatar",
   handleFormSubmit: (inputValues) => {
     profilePicPopup.renderLoading(true);
     api
       .avatarUpdate(inputValues)
       .then((data) => {
-        profilePicPopup.changeProfilePic(data);
         userInfo.setNewAvatar(data);
+        profilePicPopup.close();
+        profilePicPopup.getForm().reset();
       })
       .catch((err) => console.error(err))
       .finally(() => profilePicPopup.renderLoading(false));
@@ -199,12 +195,8 @@ profileAvatarContainer.addEventListener("click", () => {
 profileButtonEdit.addEventListener("click", () => {
   formValidators["profile-form"].resetValidation();
   userPopupForm.open();
-  api
-    .getUserData()
-    .then((data) => {
-      userPopupForm.setInputValues(data);
-    })
-    .catch((err) => console.error(err));
+  const currentUserData = userInfo.getUserInfo();
+  userPopupForm.setInputValues(currentUserData);
 });
 
 //VALIDATION
@@ -225,32 +217,3 @@ const enableValidation = (config) => {
 enableValidation(config);
 
 export default confirmPopup;
-
-// const initialCards = api
-//   .getInitialCards()
-//   .then((data) => {
-//     const cardsList = new Section(
-//       {
-//         items: data,
-//         renderer: (item) => {
-//           const newCard = createCard(item);
-//           cardsList.addItem(newCard);
-//         },
-//       },
-//       config.cardsListSelector
-//     );
-//     cardsList.renderItems();
-//   })
-//   .catch((err) => console.log(err));
-
-// const userData = api
-//   .getUserData()
-//   .then((data) => {
-//     const currentUser = {
-//       name: data.name,
-//       description: data.about,
-//       avatar: data.avatar,
-//     };
-//     console.log(currentUser);
-//   })
-//   .catch((err) => console.error(err));

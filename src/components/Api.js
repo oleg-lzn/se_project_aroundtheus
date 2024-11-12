@@ -13,9 +13,7 @@ class Api {
   getUserData() {
     return fetch(`${this._baseURL}/users/me`, {
       headers: this._headers,
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   editProfileData(userInput) {
@@ -26,17 +24,13 @@ class Api {
         name: userInput.name,
         about: userInput.description,
       }),
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   getInitialCards() {
     return fetch(`${this._baseURL}/cards`, {
       headers: this._headers,
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   addNewCard(newCard) {
@@ -49,36 +43,28 @@ class Api {
         isLiked: newCard.isLiked,
         _id: newCard._id,
       }),
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   deleteCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   likeCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: "PUT",
       headers: this._headers,
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   dislikeCard(cardId) {
     return fetch(`${this._baseURL}/cards/${cardId}/likes`, {
       method: "DELETE",
       headers: this._headers,
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   avatarUpdate(inputValues) {
@@ -86,11 +72,9 @@ class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: inputValues.url, // проверить, как в запросе реально
+        avatar: inputValues.url,
       }),
-    })
-      .then((res) => this._checkTheApiResponse(res))
-      .catch((err) => console.error(err));
+    }).then((res) => this._checkTheApiResponse(res));
   }
 
   loadPageContent() {
@@ -99,47 +83,4 @@ class Api {
   }
 }
 
-// const promises = [getuserData(), getInitialCards()];
-
-// // pass the array of promises to the Promise.all() method
-// Promise.all(promises)
-//   .then((results) => {
-//     console.log(results); // ["Picture", "Text"]
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//   });
-
-// // create an array of promises
-
 export default Api;
-
-// User routes
-
-// GET /users/me – Get the current user’s info
-// PATCH /users/me – Update your profile information
-// PATCH /users/me/avatar – Update avatar
-// Card routes
-
-// GET /cards – Get all cards
-// POST /cards – Create a card
-// DELETE /cards/:cardId – Delete a card
-// PUT /cards/:cardId/likes – Like a card
-// DELETE /cards/:cardId/likes – Dislike a card
-
-// Cards should be rendered after the user information is received from the server.
-//  Сreate a function in Api.js and return the Promise.all() method.
-//  Pass the array of function calls for getting user information and the list of cards to Promise.all()
-//  as a parameter.
-
-// const promise1 = Promise.resolve(3);
-// const promise2 = new Promise((resolve) => setTimeout(resolve, 1000, "Hello"));
-// const promise3 = Promise.resolve(42);
-
-// Promise.all([promise1, promise2, promise3])
-//   .then((results) => {
-//     console.log(results); // [3, "Hello", 42]
-//   })
-//   .catch((error) => {
-//     console.error("Ошибка:", error);
-//   });

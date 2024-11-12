@@ -19,7 +19,7 @@ class UserInfo {
     this._nameElement.textContent = name;
     this._descriptionElement.textContent = description;
     if (avatar) {
-      this._avatarElement.src = avatar;
+      this._avatarElement.src = avatar; // не работает замена этой строки на метод
     }
   }
 

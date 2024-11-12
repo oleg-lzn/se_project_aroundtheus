@@ -6,7 +6,9 @@ class Card {
     cardSelector,
     handleImageClick,
     handleLikeToggle,
-    handleCardDelete
+    handleDeleteButton,
+    handleCardDelete,
+    setLikeStatus
   ) {
     this._name = name;
     this._link = link;
@@ -15,7 +17,9 @@ class Card {
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
     this._handleLikeToggle = handleLikeToggle;
-    this._handleCardDelete = handleCardDelete;
+    this.handleCardDelete = handleCardDelete;
+    this.handleDeleteButton = handleDeleteButton;
+    this.setLikeStatus = setLikeStatus;
   }
 
   // Card template creation and copying
@@ -29,15 +33,13 @@ class Card {
   // Listeners creation function
   _setEventListeners() {
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeToggle(this._isLiked); // должен передавать в index.js статус isLiked и id,
+      this._handleLikeToggle(this._isLiked);
     });
 
     //Delete button
     this._trashButton.addEventListener("click", () => {
-      confirmPopup.open();
-      confirmPopup._handleFormSubmit = () => {
-        this._handleCardDelete(this._id);
-      };
+      this.handleDeleteButton();
+      // this.handleCardDelete(this._id);
     });
 
     //Image handler
@@ -46,9 +48,12 @@ class Card {
     });
   }
 
+  setLikeStatus(isLiked) {
+    this._isLiked = isLiked;
+  }
+
   // Like Status toggler
   updateLikeStatus(isLiked) {
-    this._isLiked = isLiked;
     isLiked
       ? this._likeButton.classList.add("card__like-button_active")
       : this._likeButton.classList.remove("card__like-button_active");
@@ -64,17 +69,13 @@ class Card {
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
+    // нужно инициализировать статус лайка тут
     this._setEventListeners();
   }
 
   // Card Removal
   removeCard() {
     this._cardElement.remove();
-  }
-
-  // Opener
-  open() {
-    this.open();
   }
 
   // Card renderer

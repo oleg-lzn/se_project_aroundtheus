@@ -23,9 +23,9 @@ class PopupWithForm extends Popup {
     return userInput;
   }
 
-  renderLoading(isLoading) {
+  renderLoading(isLoading, loadingText = "Saving...") {
     if (isLoading) {
-      this._submitButton.textContent = "Saving...";
+      this._submitButton.textContent = loadingText;
     } else {
       this._submitButton.textContent = this._defaultButtonText;
     }
@@ -34,8 +34,12 @@ class PopupWithForm extends Popup {
   // User input values setter
   setInputValues(data) {
     this._inputList.forEach((input) => {
-      data[input.name] = input.value;
+      input.value = data[input.name];
     });
+  }
+
+  getForm() {
+    return this._popupForm;
   }
 
   // Event Listeners setter and submit logics
@@ -44,15 +48,8 @@ class PopupWithForm extends Popup {
       evt.preventDefault();
       const inputValues = this._getInputValues();
       this._handleFormSubmit(inputValues);
-      this._popupForm.reset();
-      this.close();
     });
     super.setEventListeners();
-  }
-
-  // Popup Closer
-  close() {
-    super.close();
   }
 }
 
