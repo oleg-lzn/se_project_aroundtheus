@@ -1,5 +1,3 @@
-import confirmPopup from "../pages/index.js";
-
 class Card {
   constructor(
     { name, link, _id, isLiked },
@@ -7,8 +5,7 @@ class Card {
     handleImageClick,
     handleLikeToggle,
     handleDeleteButton,
-    handleCardDelete,
-    setLikeStatus
+    handleCardDelete
   ) {
     this._name = name;
     this._link = link;
@@ -19,7 +16,6 @@ class Card {
     this._handleLikeToggle = handleLikeToggle;
     this.handleCardDelete = handleCardDelete;
     this.handleDeleteButton = handleDeleteButton;
-    this.setLikeStatus = setLikeStatus;
   }
 
   // Card template creation and copying
@@ -38,8 +34,7 @@ class Card {
 
     //Delete button
     this._trashButton.addEventListener("click", () => {
-      this.handleDeleteButton();
-      // this.handleCardDelete(this._id);
+      this.handleDeleteButton(this);
     });
 
     //Image handler
@@ -48,12 +43,9 @@ class Card {
     });
   }
 
-  setLikeStatus(isLiked) {
-    this._isLiked = isLiked;
-  }
-
   // Like Status toggler
   updateLikeStatus(isLiked) {
+    this._isLiked = isLiked;
     isLiked
       ? this._likeButton.classList.add("card__like-button_active")
       : this._likeButton.classList.remove("card__like-button_active");
@@ -69,7 +61,6 @@ class Card {
     this._cardTitle.textContent = this._name;
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
-    // нужно инициализировать статус лайка тут
     this._setEventListeners();
   }
 

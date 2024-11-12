@@ -55,50 +55,46 @@ api
 
 // Card creation function
 function createCard(item) {
+  function handleImageClick() {
+    imagePopup.open(item);
+  }
+  function handleLikeToggle(isLiked) {
+    if (isLiked) {
+      api
+        .dislikeCard(item._id)
+        .then((res) => {
+          cardElement.updateLikeStatus(res.isLiked);
+        })
+        .catch((err) => console.error(err));
+    } else {
+      api
+        .likeCard(item._id)
+        .then((res) => {
+          cardElement.updateLikeStatus(res.isLiked);
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+
+  function handleDeleteButton(cardElement) {
+    confirmPopup.open(item._id, cardElement);
+  }
+
+  function handleCardDelete(cardId) {
+    console.log(cardId);
+  }
+
   const cardElement = new Card(
     item,
     "#card-template",
     // image popup callback
-    () => imagePopup.open(item),
-    // like status callback
-    (isLiked) => setLikeStatus(isLiked),
+    handleImageClick,
     // like handler callback
-    (isLiked) => {
-      if (isLiked) {
-        api
-          .dislikeCard(item._id)
-          .then((res) => {
-            cardElement.updateLikeStatus(res.isLiked);
-            cardElement.setLikeStatus(res.isLiked);
-          })
-          .catch((err) => console.error(err));
-      } else {
-        api
-          .likeCard(item._id)
-          .then((res) => {
-            cardElement.updateLikeStatus(res.isLiked);
-            cardElement.setLikeStatus();
-          })
-          .catch((err) => console.error(err));
-      }
-    },
+    handleLikeToggle,
     // delete popup open handler
-    () => {
-      confirmPopup.open();
-    },
-    // вот этот кусок логики удаления самой карточки должен остаться здесь или быть перенесен в сам попап?
-
+    handleDeleteButton,
     // delete popup submit handler
-    (cardId) => {
-      confirmPopup.handleFormSubmit();
-      api
-        .deleteCard(cardId)
-        .then(() => {
-          cardElement.removeCard();
-          confirmPopup.close();
-        })
-        .catch((err) => console.error("Error deleting the card", err));
-    }
+    handleCardDelete
   );
   return cardElement.getView();
 }
@@ -111,7 +107,16 @@ const imagePopup = new PopupWithImage("#imageOpen");
 // Card delete confirmation popup
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
-  handleFormSubmit: (cardId, cardElement) => {}, // в колбэк надо передавать информацию о том, какая карточка будет удалена
+  handleFormSubmit: (cardId, cardElement) => {
+    console.log(cardId);
+    api
+      .deleteCard(cardId)
+      .then(() => {
+        cardElement.removeCard();
+        confirmPopup.close();
+      })
+      .catch((err) => console.error("Error deleting the card", err));
+  }, // в колбэк надо передавать информацию о том, какая карточка будет удалена
 });
 
 // Creating a popup with add card form
