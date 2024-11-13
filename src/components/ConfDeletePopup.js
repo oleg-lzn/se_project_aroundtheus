@@ -19,7 +19,6 @@ class ConfirmDeletePopup extends Popup {
       ) {
         // здесь должна подтягиваться информация о карточке, которая будет удалена
         this.handleFormSubmit(this.cardId, this.cardElement); // сюда надо передавать информацию о карточке
-        // this.setCardId(null);
       }
     });
     super.setEventListeners();

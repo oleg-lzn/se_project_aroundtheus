@@ -81,10 +81,6 @@ function createCard(item) {
     confirmPopup.open(item._id, cardElement);
   }
 
-  function handleCardDelete(cardId) {
-    console.log(cardId);
-  }
-
   const cardElement = new Card(
     item,
     "#card-template",
@@ -93,9 +89,7 @@ function createCard(item) {
     // like handler callback
     handleLikeToggle,
     // delete popup open handler
-    handleDeleteButton,
-    // delete popup submit handler
-    handleCardDelete
+    handleDeleteButton
   );
   return cardElement.getView();
 }
@@ -109,17 +103,15 @@ const imagePopup = new PopupWithImage("#imageOpen");
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
   handleFormSubmit: (cardId, cardElement) => {
-    // console.log(cardId);
     api
       .deleteCard(cardId)
       .then(() => {
         cardElement.removeCard();
         confirmPopup.setCardId(null);
         confirmPopup.close();
-        console.log(cardId);
       })
       .catch((err) => console.error("Error deleting the card", err));
-  }, // в колбэк надо передавать информацию о том, какая карточка будет удалена
+  },
 });
 
 // Creating a popup with add card form
