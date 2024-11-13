@@ -57,6 +57,7 @@ api
 function createCard(item) {
   function handleImageClick() {
     imagePopup.open(item);
+    imagePopup.setEventListeners();
   }
   function handleLikeToggle(isLiked) {
     if (isLiked) {
@@ -108,12 +109,14 @@ const imagePopup = new PopupWithImage("#imageOpen");
 const confirmPopup = new ConfirmDeletePopup({
   popupSelector: "#cardDelete",
   handleFormSubmit: (cardId, cardElement) => {
-    console.log(cardId);
+    // console.log(cardId);
     api
       .deleteCard(cardId)
       .then(() => {
         cardElement.removeCard();
+        confirmPopup.setCardId(null);
         confirmPopup.close();
+        console.log(cardId);
       })
       .catch((err) => console.error("Error deleting the card", err));
   }, // в колбэк надо передавать информацию о том, какая карточка будет удалена
@@ -185,6 +188,7 @@ const profilePicPopup = new PopupWithForm({
       .avatarUpdate(inputValues)
       .then((data) => {
         userInfo.setNewAvatar(data);
+        formValidators["new-card-form"].disableButton();
         profilePicPopup.close();
         profilePicPopup.getForm().reset();
       })
