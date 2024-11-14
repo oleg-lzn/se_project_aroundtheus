@@ -60,6 +60,7 @@ class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._setEventListeners();
+    this.updateLikeStatus(this._isLiked);
   }
 
   // Card Removal

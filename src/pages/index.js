@@ -59,6 +59,7 @@ function createCard(item) {
     imagePopup.open(item);
     imagePopup.setEventListeners();
   }
+
   function handleLikeToggle(isLiked) {
     if (isLiked) {
       api
@@ -180,7 +181,7 @@ const profilePicPopup = new PopupWithForm({
       .avatarUpdate(inputValues)
       .then((data) => {
         userInfo.setNewAvatar(data);
-        formValidators["new-card-form"].disableButton();
+        formValidators["profile-pic-change"].disableButton();
         profilePicPopup.close();
         profilePicPopup.getForm().reset();
       })
