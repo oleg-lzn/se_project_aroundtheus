@@ -12,6 +12,10 @@
   min-width: 320px;
 }
 
+.page__content_hidden {
+  display: none;
+}
+
 .page__section {
   position: relative;
   width: 100%;

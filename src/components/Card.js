@@ -1,30 +1,38 @@
-export class Card {
-  constructor({ name, link }, cardSelector, handleImageClick) {
+class Card {
+  constructor(
+    { name, link, _id, isLiked },
+    cardSelector,
+    handleImageClick,
+    handleLikeToggle,
+    handleDeleteButton
+  ) {
     this._name = name;
     this._link = link;
+    this._isLiked = isLiked;
+    this._id = _id;
     this._cardSelector = cardSelector;
     this._handleImageClick = handleImageClick;
+    this._handleLikeToggle = handleLikeToggle;
+    this.handleDeleteButton = handleDeleteButton;
   }
 
+  // Card template creation and copying
   _getCardTemplate() {
-    // Here goes the method for card template creation and copying
     const cardTemplate = document
       .querySelector(this._cardSelector)
       .content.firstElementChild.cloneNode(true);
     return cardTemplate;
   }
 
+  // Listeners creation function
   _setEventListeners() {
-    //Here goes the part of code, responsible for the event listeners
-
-    //like button
     this._likeButton.addEventListener("click", () => {
-      this._handleLikeButton();
+      this._handleLikeToggle(this._isLiked);
     });
 
-    //delete button
+    //Delete button
     this._trashButton.addEventListener("click", () => {
-      this._deleteButtonHandler();
+      this.handleDeleteButton(this);
     });
 
     //Image handler
@@ -33,8 +41,16 @@ export class Card {
     });
   }
 
+  // Like Status toggler
+  updateLikeStatus(isLiked) {
+    this._isLiked = isLiked;
+    isLiked
+      ? this._likeButton.classList.add("card__like-button_active")
+      : this._likeButton.classList.remove("card__like-button_active");
+  }
+
+  // Card creation and listeners setting function
   _renderCard() {
-    // Here goes the method for card rendering and filling it with data
     this._cardElement = this._getCardTemplate();
     this._likeButton = this._cardElement.querySelector(".card__like-button");
     this._cardImage = this._cardElement.querySelector(".card__image");
@@ -44,18 +60,15 @@ export class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = this._name;
     this._setEventListeners();
+    this.updateLikeStatus(this._isLiked);
   }
 
-  //   handlers for like and delete buttons
-  _deleteButtonHandler() {
+  // Card Removal
+  removeCard() {
     this._cardElement.remove();
-    this._cardElement = null;
   }
 
-  _handleLikeButton() {
-    this._likeButton.classList.toggle("card__like-button_active");
-  }
-
+  // Card renderer
   getView() {
     this._renderCard();
     return this._cardElement;

@@ -8,7 +8,7 @@
     <meta name="description" content="Oleg Around the U.S responsive page" />
     <meta name="keywords" content="united states travel" />
     <title>Around The U.S</title>
-    <link rel="icon" href='./images/favicon.svg'/>
+    <link rel="icon" href="./images/favicon.svg" />
   </head>
   <body class="page">
     <div class="page__content">
@@ -20,12 +20,20 @@
         />
       </header>
       <main class="content">
+        <div class="spinner"><i></i></div>
         <section class="profile page__section">
-          <img
-            class="profile__avatar"
-            src="<%=require('./images/jacques-cousteau.svg')%>"
-            alt="Jacques Cousteau image"
-          />
+          <div class="profile__avatar_container">
+            <img
+              class="profile__avatar"
+              src="<%=require('./images/jacques-cousteau.svg')%>"
+              alt="Jacques Cousteau image"
+            />
+            <img
+              class="profile__avatar_edit_button"
+              src="<%=require('./images/profile_avatar_edit_sign.svg')%>"
+              alt="Profile Avatar Edit Button"
+            />
+          </div>
           <div class="profile__info">
             <h1 class="profile__title">Jacques Cousteau</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -36,77 +44,150 @@
         <section class="cards page__section">
           <ul class="cards__list"></ul>
         </section>
+
+        <!-- Profile Change Popup -->
         <div class="popup" id="profileChange">
-          <div class="popup__container" id = "popup__container">
+          <div class="popup__container" id="popup__container">
             <button class="popup__close" type="button"></button>
             <p class="popup__title">Edit profile</p>
-            <form class="popup__form" novalidate id='profile-form'>
+            <form class="popup__form" novalidate id="profile-form">
               <div class="popup__form-group">
-              <input
-                class="popup__input"
-                name="name" minlength="2" maxlength="40"
-                type="text"
-                placeholder="Name" required
-                id="name-input"
-              />
-              <span class="popup__error" id="name-input-error"></span>
-            </div>
-            <div class="popup__form-group">
-              <input
-                class="popup__input"
-                name="description" minlength="2" maxlength="200"
-                type="text"
-                placeholder="Description" required
-                id="description-input"
-              />
-              <span class="popup__error" id="description-input-error"></span>
-            </div>
-              <button class="popup__button" type="submit" id='save_button' disabled>Save</button>
+                <input
+                  class="popup__input"
+                  name="name"
+                  minlength="2"
+                  maxlength="40"
+                  type="text"
+                  placeholder="Name"
+                  required
+                  id="name-input"
+                />
+                <span class="popup__error" id="name-input-error"></span>
+              </div>
+              <div class="popup__form-group">
+                <input
+                  class="popup__input"
+                  name="description"
+                  minlength="2"
+                  maxlength="200"
+                  type="text"
+                  placeholder="Description"
+                  required
+                  id="description-input"
+                />
+                <span class="popup__error" id="description-input-error"></span>
+              </div>
+              <button
+                class="popup__button"
+                type="submit"
+                id="save_button"
+                disabled
+              >
+                Save
+              </button>
             </form>
           </div>
         </div>
+
+        <!-- Add Card Popup -->
         <div class="popup" id="addElement">
-          <div class="popup__container" id ="popup__container">
+          <div class="popup__container" id="popup__container">
             <button class="popup__close" type="button"></button>
             <p class="popup__title">New Place</p>
-            <form class="popup__form" id ='new-card-form' novalidate>
+            <form class="popup__form" id="new-card-form" novalidate>
               <div class="popup__form-group">
-              <input
-                class="popup__input"
-                name="title"
-                type="text"
-                placeholder="Title" required
-                id="title-input" minlength="1" maxlength="30"
-              />
-              <span class="popup__error" id="title-input-error"></span>
-            </div>
-            <div class="popup__form-group">
-              <input
-                class="popup__input"
-                name="url"
-                type="url"
-                placeholder="Image URL" required
-                id="url-input"
-              />
-              <span class="popup__error" id ="url-input-error"></span>
-            </div>
-              <button class="popup__button popup__button_disabled" type="submit" id='create_button' disabled>Create</button>
+                <input
+                  class="popup__input"
+                  name="title"
+                  type="text"
+                  placeholder="Title"
+                  required
+                  id="title-input"
+                  minlength="1"
+                  maxlength="30"
+                />
+                <span class="popup__error" id="title-input-error"></span>
+              </div>
+              <div class="popup__form-group">
+                <input
+                  class="popup__input"
+                  name="url"
+                  type="url"
+                  placeholder="Image URL"
+                  required
+                  id="url-input"
+                />
+                <span class="popup__error" id="url-input-error"></span>
+              </div>
+              <button
+                class="popup__button popup__button_disabled"
+                type="submit"
+                id="create_button"
+                disabled
+              >
+                Create
+              </button>
             </form>
           </div>
         </div>
       </main>
       <footer class="footer page__section">
-        <p class="footer__copyright">©2024 Around the U.S</p>
+        <p class="footer__copyright">©2024 Oleg Luzenin - Around the U.S</p>
       </footer>
     </div>
 
+    <!-- Image Open Popup -->
     <div class="popup" id="imageOpen">
-      <div class="popup__container-image" id ="popup__container">
+      <div class="popup__container-image" id="popup__container">
         <button class="popup__close" type="button"></button>
-        <img class="popup__image" alt="popup__image_alt_text">
+        <img class="popup__image" alt="popup__image_alt_text" />
         <p class="popup__title-small"></p>
       </div>
+    </div>
 
+    <!-- Card Delete Popup -->
+    <div class="popup" id="cardDelete">
+      <div class="popup__container" id="popup__container">
+        <button class="popup__close" type="button"></button>
+        <p class="popup__title">Are you sure?</p>
+        <form class="popup__form" id="confirm-delete-form" novalidate>
+          <button class="popup__button" type="submit" id="confirm_button">
+            Yes
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Profile Pic Change Popup -->
+    <div class="popup" id="profilePicChange">
+      <div class="popup__container" id="popup__container">
+        <button class="popup__close" type="button"></button>
+        <p class="popup__title">Change profile picture</p>
+        <form class="popup__form" id="profile-pic-change" novalidate>
+          <div class="popup__form-group">
+            <input
+              class="popup__input"
+              name="url"
+              type="url"
+              placeholder="Profile Image URL"
+              required
+              id="url-input"
+            />
+            <span class="popup__error" id="url-input-error"></span>
+          </div>
+          <button
+            class="popup__button popup__button_disabled"
+            type="submit"
+            id="confirm_button"
+            disabled
+          >
+            Save
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Card Template -->
     <template id="card-template">
       <li class="card">
         <img class="card__image" alt="card__alt_text" />
